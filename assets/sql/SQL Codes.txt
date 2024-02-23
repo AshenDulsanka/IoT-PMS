@@ -1,6 +1,6 @@
 -- Create Generator table
-CREATE TABLE Generator (
-    GID INT PRIMARY KEY,
+CREATE TABLE generator (
+    GenID INT PRIMARY KEY,
     name VARCHAR(500),
     installationDate DATE,
     manufacturer VARCHAR(500),
@@ -10,9 +10,9 @@ CREATE TABLE Generator (
 );
 
 -- Create SensorData table
-CREATE TABLE SensorData (
-    SID INT PRIMARY KEY,
-    GID INT,
+CREATE TABLE sensordata (
+    logID INT PRIMARY KEY,
+    GenID INT,
     timeofdata DATETIME,
     vibration DECIMAL(10,2),
     temprature DECIMAL(10, 2),

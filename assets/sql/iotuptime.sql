@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 23, 2024 at 07:19 AM
+-- Generation Time: Feb 23, 2024 at 08:34 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.0.25
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `iotpms`
+-- Database: `iotuptime`
 --
 
 -- --------------------------------------------------------
@@ -28,13 +28,13 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `generator` (
-  `GID` int(11) NOT NULL,
+  `GenID` int(11) NOT NULL,
   `name` varchar(500) DEFAULT NULL,
   `installationDate` date DEFAULT NULL,
-  `operatingHours` int(11) DEFAULT 0,
   `manufacturer` varchar(500) DEFAULT NULL,
+  `location` varchar(500) DEFAULT NULL,
   `lastMaintenanceDate` date DEFAULT NULL,
-  `location` varchar(500) DEFAULT NULL
+  `operatingHours` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -44,8 +44,8 @@ CREATE TABLE `generator` (
 --
 
 CREATE TABLE `sensordata` (
-  `SID` int(11) NOT NULL,
-  `GID` int(11) DEFAULT NULL,
+  `logID` int(11) NOT NULL,
+  `GenID` int(11) DEFAULT NULL,
   `timeofdata` datetime DEFAULT NULL,
   `vibration` decimal(10,2) DEFAULT NULL,
   `temprature` decimal(10,2) DEFAULT NULL,
@@ -64,14 +64,14 @@ CREATE TABLE `sensordata` (
 -- Indexes for table `generator`
 --
 ALTER TABLE `generator`
-  ADD PRIMARY KEY (`GID`);
+  ADD PRIMARY KEY (`GenID`);
 
 --
 -- Indexes for table `sensordata`
 --
 ALTER TABLE `sensordata`
-  ADD PRIMARY KEY (`SID`),
-  ADD KEY `GID` (`GID`);
+  ADD PRIMARY KEY (`logID`),
+  ADD KEY `GenID` (`GenID`);
 
 --
 -- Constraints for dumped tables
@@ -81,7 +81,7 @@ ALTER TABLE `sensordata`
 -- Constraints for table `sensordata`
 --
 ALTER TABLE `sensordata`
-  ADD CONSTRAINT `sensordata_ibfk_1` FOREIGN KEY (`GID`) REFERENCES `generator` (`GID`);
+  ADD CONSTRAINT `sensordata_ibfk_1` FOREIGN KEY (`GenID`) REFERENCES `generator` (`GenID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
