@@ -1,0 +1,25 @@
+-- Create Generator table
+CREATE TABLE Generator (
+    GID INT PRIMARY KEY,
+    name VARCHAR(500),
+    installationDate DATE,
+    manufacturer VARCHAR(500),
+    location VARCHAR(500),
+    lastMaintenanceDate DATE,
+    operatingHours INT DEFAULT 0 -- Adding OperatingHours column with a default value of 0
+);
+
+-- Create SensorData table
+CREATE TABLE SensorData (
+    SID INT PRIMARY KEY,
+    GID INT,
+    timeofdata DATETIME,
+    vibration DECIMAL(10,2),
+    temprature DECIMAL(10, 2),
+    fuelLevel DECIMAL(10, 2),
+    oilPressure DECIMAL(10, 2),
+    current DECIMAL(10, 2),
+    sound DECIMAL(10, 2),
+    gas DECIMAL(10, 2),
+    FOREIGN KEY (GID) REFERENCES generator(GID)
+);
