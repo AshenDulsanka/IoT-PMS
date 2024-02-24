@@ -1,18 +1,26 @@
 #include <Arduino.h>
 
-// put function declarations here:
-int myFunction(int, int);
+#define LED 2
+int sound_digital = 33;
 
-void setup() {
+void setup()
+{
   // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  Serial.begin(115200);
+  pinMode(LED, OUTPUT);
+  pinMode(sound_digital, INPUT);
 }
 
-void loop() {
+void loop()
+{
   // put your main code here, to run repeatedly:
-}
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  // write the value of the digital pin to the serial monitor
+
+  int soundValue = analogRead(sound_digital);
+  if (soundValue > 0)
+  {
+    delay(1000);
+    Serial.println(soundValue);
+  }
 }
