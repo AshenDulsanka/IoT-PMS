@@ -5,7 +5,7 @@
 // libraries for temp sensor ends here
 
 #define LED 2
-int oneWireBus = 34;    // temp sensor
+int oneWireBus = 14;    // temp sensor
 int smoke_digital = 35; // smoke sensor
 int sound_digital = 25; // sound sensor
 
