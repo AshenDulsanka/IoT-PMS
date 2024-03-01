@@ -7,8 +7,7 @@
 #define LED 2
 int oneWireBus = 34;    // temp sensor
 int smoke_digital = 35; // smoke sensor
-int sound_digital = 33; // sound sensor
-int sensorThres = 400;  // temp sensor
+int sound_digital = 25; // sound sensor
 
 // setting up onewire and dalls for temp sensor
 OneWire oneWire(oneWireBus);
@@ -28,18 +27,6 @@ void loop()
 {
   // put your main code here, to run repeatedly:
 
-  // write the value of the digital pin to the serial monitor
-
-  // sound sensor
-  int soundValue = analogRead(sound_digital);
-  if (soundValue > 0)
-  {
-    delay(1000);
-    Serial.print("Sound Value: ");
-    Serial.println(soundValue);
-  }
-  // sound sensor ends here
-
   // smoke sensor
   int smokeValue = analogRead(smoke_digital);
   Serial.print("Smoke Value: ");
@@ -54,5 +41,15 @@ void loop()
   // Why "byIndex"? You can have more than one IC on the same bus. 0 refers to the first IC on the wire
   Serial.println(sensors.getTempCByIndex(0));
   delay(1000);
-  // temp sensor ends here
+  // temp sensor ends here  
+
+  // sound sensor
+  int soundValue = analogRead(sound_digital);
+  if (soundValue >= 0)
+  {
+    delay(1000);
+    Serial.print("Sound Value: ");
+    Serial.println(soundValue);
+  }
+  // sound sensor ends here
 }
