@@ -118,6 +118,7 @@ void setup()
   // put your setup code here, to run once:
   Serial.begin(115200);
   pinMode(sound_digital, INPUT);
+  pinMode(TEMP_PIN, INPUT);
   pinMode(smoke_digital, INPUT);
   pinMode(TEMP_PIN, INPUT);
 }
