@@ -3,11 +3,11 @@
 #include <OneWire.h>
 // libraries for temp sensor ends here
 
-#define LED 2
-int TEMP_PIN = 16;      // temp sensor
-int smoke_digital = 34; // smoke sensor
-int sound_digital = 32; // sound sensor
-OneWire ds(TEMP_PIN);   // temp sensor
+int ledPin = 5;
+int TEMP_PIN = 16;       // temp sensor
+int soundSensorPin = 34; // sound sensor
+int smokeSensorPin = 32; // smoke sensor
+OneWire ds(TEMP_PIN);    // temp sensor
 
 // temp sensor
 double readTempValue()
@@ -113,37 +113,52 @@ double readTempValue()
 }
 // temp sensor ends here
 
+int readSoundValue()
+{
+  int soundValue = analogRead(soundSensorPin);
+  Serial.print("Sound Value: ");
+  Serial.println(soundValue);
+  return soundValue;
+}
+
+int readSmokeValue()
+{
+  int smokeValue = analogRead(smokeSensorPin);
+  Serial.print("Smoke Value: ");
+  Serial.println(smokeValue);
+  return smokeValue;
+}
+
 void setup()
 {
   // put your setup code here, to run once:
   Serial.begin(115200);
-  pinMode(sound_digital, INPUT);
+  pinMode(soundSensorPin, INPUT);
   pinMode(TEMP_PIN, INPUT);
-  pinMode(smoke_digital, INPUT);
-  pinMode(TEMP_PIN, INPUT);
+  pinMode(ledPin, OUTPUT);
 }
 
 void loop()
 {
   Serial.println("--------------------");
   // put your main code here, to run repeatedly:
-
-  // smoke sensor
-  int smokeValue = analogRead(smoke_digital);
-  Serial.print("Smoke Value: ");
-  Serial.println(smokeValue);
-  // smoke sensor ends here
-
-  // temp sensor
+  // Read temperature
   double tempValue = readTempValue();
   // temp sensor ends here
 
   // sound sensor
-  int soundValue = analogRead(sound_digital);
-  Serial.print("Sound Value: ");
-  Serial.println(soundValue);
+  int soundValue = analogRead(soundSensorPin);
   // sound sensor ends here
+
+  // smoke sensor
+  int smokeValue = analogRead(smokeSensorPin);
+  // smoke sensor ends here
   Serial.println("--------------------");
+
+  digitalWrite(ledPin, HIGH); // turn on the LED
+  delay(500);                 // wait for half a second or 500 milliseconds
+  digitalWrite(ledPin, LOW);  // turn off the LED
+  delay(500);                 // wait for half a second or 500 milliseconds
 
   delay(1000);
 }
