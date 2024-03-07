@@ -182,7 +182,7 @@ int readSmokeValue()
 // vibration sensor
 int readVibrationValue()
 {
-  buttonState = digitalRead(vibSensornPin);
+  buttonState = analogRead(vibSensornPin);
   Serial.print("Vibration Value: ");
   Serial.println(buttonState);
   return buttonState;
