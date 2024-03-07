@@ -3,11 +3,20 @@
 #include <OneWire.h>
 // libraries for temp sensor ends here
 
-int ledPin = 5;
-int TEMP_PIN = 16;       // temp sensor
-int soundSensorPin = 34; // sound sensor
-int smokeSensorPin = 32; // smoke sensor
-OneWire ds(TEMP_PIN);    // temp sensor
+const int ledPin = 19;
+const int TEMP_PIN = 16;       // temp sensor
+const int soundSensorPin = 32; // sound sensor
+const int smokeSensorPin = 0;  // smoke sensor
+const int fuelLvlTrigPin = 5;  // fuel level sensor
+const int fuelLvlEchoPin = 18; // fuel level sensor
+OneWire ds(TEMP_PIN);          // temp sensor
+
+// for fuel level sensor
+#define SOUND_SPEED 0.034
+#define CM_TO_INCH 0.393701
+long fuelLvlDuration;
+float FuelLvlDistanceCm;
+float fuelLvlDistanceInch;
 
 // temp sensor
 double readTempValue()
@@ -109,10 +118,44 @@ double readTempValue()
   Serial.print(" Celsius, ");
   Serial.print(fahrenheit);
   Serial.println(" Fahrenheit");
-  return (double)celsius;
+  return celsius;
 }
 // temp sensor ends here
 
+// fuel level sensor
+double readFuelValue()
+{
+  // Clears the trigPin
+  digitalWrite(fuelLvlTrigPin, LOW);
+  delayMicroseconds(2);
+  // Sets the trigPin on HIGH state for 10 microseconds
+  digitalWrite(fuelLvlTrigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(fuelLvlTrigPin, LOW);
+
+  // Measure the duration of the echo pulse
+  fuelLvlDuration = pulseIn(fuelLvlEchoPin, HIGH);
+
+  // Calculate the distance
+  FuelLvlDistanceCm = (float)fuelLvlDuration * SOUND_SPEED / 2.0;
+
+  // Convert to inches
+  fuelLvlDistanceInch = FuelLvlDistanceCm * CM_TO_INCH;
+
+  // Prints the distance in the Serial Monitor
+  Serial.print("Distance: ");
+  Serial.print(FuelLvlDistanceCm);
+  Serial.print("cm, ");
+  Serial.print(fuelLvlDistanceInch);
+  Serial.println(" inch");
+
+  delay(1000);
+
+  return FuelLvlDistanceCm;
+}
+// fuel level sensor ends here
+
+// sound sensor
 int readSoundValue()
 {
   int soundValue = analogRead(soundSensorPin);
@@ -120,7 +163,9 @@ int readSoundValue()
   Serial.println(soundValue);
   return soundValue;
 }
+// sound sensor ends here
 
+// smoke sensor
 int readSmokeValue()
 {
   int smokeValue = analogRead(smokeSensorPin);
@@ -128,14 +173,17 @@ int readSmokeValue()
   Serial.println(smokeValue);
   return smokeValue;
 }
+// smoke sensor ends here
 
 void setup()
 {
   // put your setup code here, to run once:
   Serial.begin(115200);
-  pinMode(soundSensorPin, INPUT);
-  pinMode(TEMP_PIN, INPUT);
-  pinMode(ledPin, OUTPUT);
+  pinMode(soundSensorPin, INPUT);  // sound sensor
+  pinMode(TEMP_PIN, INPUT);        // temp sensor
+  pinMode(ledPin, OUTPUT);         // LED
+  pinMode(fuelLvlTrigPin, OUTPUT); // fuel level sensor
+  pinMode(fuelLvlEchoPin, INPUT);  // fuel level sensor
 }
 
 void loop()
@@ -147,18 +195,20 @@ void loop()
   // temp sensor ends here
 
   // sound sensor
-  int soundValue = analogRead(soundSensorPin);
+  int soundValue = readSoundValue();
   // sound sensor ends here
 
   // smoke sensor
-  int smokeValue = analogRead(smokeSensorPin);
+  int smokeValue = readSmokeValue();
   // smoke sensor ends here
+
+  // fuel level sensor
+  double fuelLvlValue = readFuelValue();
+  // fuel level sensor ends here
   Serial.println("--------------------");
 
   digitalWrite(ledPin, HIGH); // turn on the LED
   delay(500);                 // wait for half a second or 500 milliseconds
   digitalWrite(ledPin, LOW);  // turn off the LED
   delay(500);                 // wait for half a second or 500 milliseconds
-
-  delay(1000);
 }
