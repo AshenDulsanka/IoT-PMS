@@ -9,6 +9,7 @@ const int soundSensorPin = 32; // sound sensor
 const int smokeSensorPin = 0;  // smoke sensor
 const int fuelLvlTrigPin = 5;  // fuel level sensor
 const int fuelLvlEchoPin = 18; // fuel level sensor
+const int vibSensornPin = 2;   // vibration sensor
 OneWire ds(TEMP_PIN);          // temp sensor
 
 // for fuel level sensor
@@ -17,6 +18,9 @@ OneWire ds(TEMP_PIN);          // temp sensor
 long fuelLvlDuration;
 float FuelLvlDistanceCm;
 float fuelLvlDistanceInch;
+
+// for vibration sensor
+int buttonState = 0; // variable for reading the pushbutton status
 
 // temp sensor
 double readTempValue()
@@ -175,6 +179,16 @@ int readSmokeValue()
 }
 // smoke sensor ends here
 
+// vibration sensor
+int readVibrationValue()
+{
+  buttonState = digitalRead(vibSensornPin);
+  Serial.print("Vibration Value: ");
+  Serial.println(buttonState);
+  return buttonState;
+}
+// vibration sensor ends here
+
 void setup()
 {
   // put your setup code here, to run once:
@@ -184,12 +198,12 @@ void setup()
   pinMode(ledPin, OUTPUT);         // LED
   pinMode(fuelLvlTrigPin, OUTPUT); // fuel level sensor
   pinMode(fuelLvlEchoPin, INPUT);  // fuel level sensor
+  pinMode(vibSensornPin, INPUT);   // vibration sensor
 }
 
 void loop()
 {
   Serial.println("--------------------");
-  // put your main code here, to run repeatedly:
   // Read temperature
   double tempValue = readTempValue();
   // temp sensor ends here
@@ -205,6 +219,10 @@ void loop()
   // fuel level sensor
   double fuelLvlValue = readFuelValue();
   // fuel level sensor ends here
+
+  // vibration sensor
+  int vibrationValue = readVibrationValue();
+  // vibration sensor ends here
   Serial.println("--------------------");
 
   digitalWrite(ledPin, HIGH); // turn on the LED
