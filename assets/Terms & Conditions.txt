@@ -1,0 +1,61 @@
+Terms & Conditions
+
+Introduction
+
+These Terms & Conditions ("Terms") constitute a legally binding agreement between UpTime ("the Company," "us," "we," or "our") and you, the user ("you," or "your") regarding your use of the UpTime mobile app ("App"). By downloading, installing, or using the App, you acknowledge that you have read, understood, and fully agree to these Terms. If you disagree with any part of these Terms, please do not use the App.
+
+1. Scope of Service
+
+The App is designed to provide predictive maintenance insights for diesel generators. It collects and analyzes data from sensors installed on the generator and provides alerts, reports, and recommendations for preventive maintenance.
+The App is intended for informational and maintenance management purposes only. The Company is not responsible for any damage or losses resulting from reliance on the App's data or recommendations.
+
+2. User Account
+
+You may be required to create an account to use the App. You are responsible for maintaining the confidentiality of your account credentials.
+You agree to provide accurate and up-to-date information when creating your account.
+You are solely responsible for any activity that occurs under your account. Contact the Company immediately in the event of any unauthorized use of your account.
+
+3. Data Collection & Privacy
+
+The App will collect sensor data from your diesel generator. This data may include vibration, temperature, fuel level, oil pressure, and current readings.
+The Company will use your data for providing predictive maintenance insights, improving the App's functionality, and for research purposes.
+
+4. Intellectual Property
+
+The App, its content, design, trademarks, and any underlying technology remain the sole property of the Company.
+You are granted a non-exclusive, non-transferable license to use the App solely for its intended purposes, as outlined in these Terms.
+You may not modify, distribute, or create derivative works based on the App without express written permission from the Company.
+
+5. Prohibited Conduct
+
+You may not use the App for any illegal or unauthorized purposes.
+You may not attempt to reverse engineer, decompile, or disassemble the App.
+You may not interfere with or disrupt the operation of the App or associated servers.
+
+6. Disclaimers & Limitation of Liability
+
+THE APP IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS. THE COMPANY DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+THE COMPANY DOES NOT GUARANTEE THE ACCURACY, COMPLETENESS, OR TIMELINESS OF THE DATA OR INSIGHTS PROVIDED BY THE APP.
+THE COMPANY SHALL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES ARISING FROM THE USE OF THE APP, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+7. Termination
+
+The Company reserves the right to suspend or terminate your access to the App at any time without notice, and for any reason, including violation of these Terms.
+
+8. Updates & Modifications
+
+The Company reserves the right to modify these Terms at any time. You will receive suitable notification of any material changes. Continued use of the App after such modifications constitutes your acceptance of the revised Terms.
+
+9. Governing Law
+
+These Terms shall be governed by and construed in accordance with the laws of Sri Lanka.
+
+10. Dispute Resolution
+
+Any disputes arising from these Terms shall be resolved through binding arbitration in Colombo, Sri Lanka.
+
+11. Contact Information
+
+If you have questions or concerns, please contact us at: uptimelk@gmail.com
+
+Important Note: It's always best to consult with a legal professional for jurisdiction and location specifics, as the ideal choices will depend on factors like the physical location of your company and the target user regions.
