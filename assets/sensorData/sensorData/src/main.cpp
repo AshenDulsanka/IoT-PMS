@@ -150,7 +150,7 @@ double readFuelValue()
   // Prints the distance in the Serial Monitor
   Serial.print("Distance: ");
   Serial.print(FuelLvlDistanceCm);
-  Serial.print("cm, ");
+  Serial.print(" cm, ");
   Serial.print(fuelLvlDistanceInch);
   Serial.println(" inch");
 
@@ -163,7 +163,8 @@ int readSoundValue()
 {
   int soundValue = analogRead(soundSensorPin);
   Serial.print("Sound Value: ");
-  Serial.println(soundValue);
+  Serial.print(soundValue);
+  Serial.println(" dB");
   return soundValue;
 }
 // sound sensor ends here
@@ -173,7 +174,8 @@ int readSmokeValue()
 {
   int smokeValue = analogRead(smokeSensorPin);
   Serial.print("Smoke Value: ");
-  Serial.println(smokeValue);
+  Serial.print(smokeValue);
+  Serial.println(" ppm");
   return smokeValue;
 }
 // smoke sensor ends here
@@ -183,7 +185,8 @@ int readVibrationValue()
 {
   buttonState = analogRead(vibSensornPin);
   Serial.print("Vibration Value: ");
-  Serial.println(buttonState);
+  Serial.print(buttonState);
+  Serial.println(" mm/s");
   return buttonState;
 }
 // vibration sensor ends here
