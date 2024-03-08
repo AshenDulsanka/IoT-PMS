@@ -5,6 +5,7 @@ CREATE TABLE users (
     Uaddress VARCHAR(1000) NOT NULL,
     Uphone VARCHAR(10) NOT NULL,
     Uemail VARCHAR(200) NOT NULL,
+    Upass VARCHAR(200) NOT NULL,
     GenName VARCHAR(500) NOT NULL,
     installationDate DATE NOT NULL,
     manufacturer VARCHAR(500) NOT NULL,
