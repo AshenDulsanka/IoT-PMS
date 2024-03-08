@@ -6,7 +6,7 @@
 const int ledPin = 19;
 const int TEMP_PIN = 16;       // temp sensor
 const int soundSensorPin = 32; // sound sensor
-const int smokeSensorPin = 0;  // smoke sensor
+const int smokeSensorPin = 35; // smoke sensor
 const int fuelLvlTrigPin = 5;  // fuel level sensor
 const int fuelLvlEchoPin = 18; // fuel level sensor
 const int vibSensornPin = 2;   // vibration sensor
