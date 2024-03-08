@@ -1,10 +1,13 @@
--- Create Generator table
-CREATE TABLE generator (
-    GenID INT PRIMARY KEY,
-    name VARCHAR(500),
-    installationDate DATE,
-    manufacturer VARCHAR(500),
-    location VARCHAR(500),
+--Create User table
+CREATE TABLE users (
+    UID INT PRIMARY KEY,
+    Uname VARCHAR(500) NOT NULL,
+    Uaddress VARCHAR(1000) NOT NULL,
+    Uphone VARCHAR(10) NOT NULL,
+    Uemail VARCHAR(200) NOT NULL,
+    GenName VARCHAR(500) NOT NULL,
+    installationDate DATE NOT NULL,
+    manufacturer VARCHAR(500) NOT NULL,
     lastMaintenanceDate DATE,
     operatingHours INT DEFAULT 0 -- Adding OperatingHours column with a default value of 0
 );
@@ -12,7 +15,7 @@ CREATE TABLE generator (
 -- Create SensorData table
 CREATE TABLE sensordata (
     logID INT PRIMARY KEY,
-    GenID INT,
+    UID INT,
     timeofdata DATETIME,
     vibration DECIMAL(10,2),
     temprature DECIMAL(10, 2),
@@ -21,5 +24,5 @@ CREATE TABLE sensordata (
     current DECIMAL(10, 2),
     sound DECIMAL(10, 2),
     gas DECIMAL(10, 2),
-    FOREIGN KEY (GID) REFERENCES generator(GID)
+    FOREIGN KEY (UID) REFERENCES users(UID)
 );
