@@ -4,13 +4,14 @@
 // libraries for temp sensor ends here
 
 const int ledPin = 19;
-const int TEMP_PIN = 16;       // temp sensor
-const int soundSensorPin = 32; // sound sensor
-const int smokeSensorPin = 35; // smoke sensor
-const int fuelLvlTrigPin = 5;  // fuel level sensor
-const int fuelLvlEchoPin = 18; // fuel level sensor
-const int vibSensornPin = 2;   // vibration sensor
-OneWire ds(TEMP_PIN);          // temp sensor
+const int TEMP_PIN = 16;         // temp sensor
+const int soundSensorPin = 32;   // sound sensor
+const int smokeSensorPin = 35;   // smoke sensor
+const int fuelLvlTrigPin = 5;    // fuel level sensor
+const int fuelLvlEchoPin = 18;   // fuel level sensor
+const int vibSensornPin = 2;     // vibration sensor
+const int currentSensorPin = 34; // current sensor
+OneWire ds(TEMP_PIN);            // temp sensor
 
 // for fuel level sensor
 #define SOUND_SPEED 0.034
@@ -153,8 +154,6 @@ double readFuelValue()
   Serial.print(fuelLvlDistanceInch);
   Serial.println(" inch");
 
-  delay(1000);
-
   return FuelLvlDistanceCm;
 }
 // fuel level sensor ends here
@@ -188,6 +187,22 @@ int readVibrationValue()
   return buttonState;
 }
 // vibration sensor ends here
+
+// current sensor
+int readCurrentValue()
+{
+  int currentSensorValue = analogRead(currentSensorPin); // Read the analog pin
+
+  float voltage = currentSensorValue * (3.3 / 4096.0); // Convert analog value to voltage
+  float current = (voltage - 2.5) / 0.1;               // Convert voltage to current using ACS712 sensitivity (20A version)
+
+  Serial.print("Voltage: ");
+  Serial.print(voltage);
+  Serial.print(" V, Current: ");
+  Serial.print(current);
+  Serial.println(" A");
+}
+// current sensor ends here
 
 void setup()
 {
@@ -223,6 +238,10 @@ void loop()
   // vibration sensor
   int vibrationValue = readVibrationValue();
   // vibration sensor ends here
+
+  // current sensor
+  int currentValue = readCurrentValue();
+  // current sensor ends here
   Serial.println("--------------------");
 
   digitalWrite(ledPin, HIGH); // turn on the LED
