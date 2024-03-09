@@ -1,0 +1,14 @@
+[
+{"type":"header","version":"5.2.0","comment":"Export to JSON plugin for PHPMyAdmin"},
+{"type":"database","name":"pusl2022_uptime"},
+{"type":"table","name":"sensordata","database":"pusl2022_uptime","data":
+[
+
+]
+}
+,{"type":"table","name":"users","database":"pusl2022_uptime","data":
+[
+
+]
+}
+]
