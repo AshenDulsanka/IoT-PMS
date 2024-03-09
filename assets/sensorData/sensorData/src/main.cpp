@@ -7,12 +7,12 @@
 #include <MySQL_Cursor.h>
 #include <Firebase_ESP_Client.h>
 
-//Provide the token generation process info.
+// Provide the token generation process info.
 #include "addons/TokenHelper.h"
-//Provide the RTDB payload printing info and other helper functions.
+// Provide the RTDB payload printing info and other helper functions.
 #include "addons/RTDBHelper.h"
 
-//network credentials
+// network credentials
 #define WIFI_SSID "DESKTOP-2PPQP65 7722"
 #define WIFI_PASSWORD "982E:56i"
 
@@ -20,33 +20,33 @@
 #define API_KEY "AIzaSyBb0bjuBKrJyziUbjGGXg_dVsGPm4FrZGE"
 
 // Insert RTDB URLefine the RTDB URL */
-#define DATABASE_URL "https://pusl2022-uptime-default-rtdb.asia-southeast1.firebasedatabase.app/" 
+#define DATABASE_URL "https://pusl2022-uptime-default-rtdb.asia-southeast1.firebasedatabase.app/"
 
-//Define Firebase Data object
+// Define Firebase Data object
 FirebaseData fbdo;
 
 FirebaseAuth auth;
 FirebaseConfig config;
 
-//mysql credentials
-IPAddress server_addr(192, 168, 1, 77); // IP of the MySQL server
+// mysql credentials
+IPAddress server_addr(127, 0, 0, 1); // IP of the MySQL server
 char user[] = "root";
 char password[] = "";
 char db_name[] = "pusl2022_uptime";
 
 WiFiClient client;
 MySQL_Connection conn((Client *)&client);
+MySQL_Cursor *cur_mem;
 
 // Function to insert data into MySQL
 void insertDataIntoMySQL(double tempValue, int soundValue, int smokeValue, double fuelLvlValue, int vibrationValue, int currentValue) {
-  MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
-  char sqlStatement[256]; // Create a buffer to hold the SQL query
+  char sqlStatement[256]; // Adjust the size according to your SQL query length
 
   snprintf(sqlStatement, sizeof(sqlStatement), "INSERT INTO sensordata (UID, timeofdata, vibration, temprature, fuelLevel, oilPressure, current, sound, gas) VALUES (1, NOW(), %d, %.2f, %.2f, 0, %d, %d, %d)",
            vibrationValue, tempValue, fuelLvlValue, currentValue, soundValue, smokeValue);
   
-  MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn); // Create a new MySQL Cursor object to execute the query
-  cur_mem->execute(sqlStatement); 
+  cur_mem = new MySQL_Cursor(&conn);
+  cur_mem->execute(sqlStatement);
   delete cur_mem;
 }
 
@@ -56,7 +56,7 @@ const int soundSensorPin = 32;   // sound sensor
 const int smokeSensorPin = 35;   // smoke sensor
 const int fuelLvlTrigPin = 5;    // fuel level sensor
 const int fuelLvlEchoPin = 18;   // fuel level sensor
-const int vibSensornPin = 2;     // vibration sensor
+const int vibSensornPin = 39;     // vibration sensor
 const int currentSensorPin = 34; // current sensor
 OneWire ds(TEMP_PIN);            // temp sensor
 
@@ -268,7 +268,8 @@ void setup()
 
   // Connect to Wi-Fi
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-  while (WiFi.status() != WL_CONNECTED) {
+  while (WiFi.status() != WL_CONNECTED)
+  {
     delay(1000);
     Serial.println("Connecting to WiFi...");
   }
@@ -278,9 +279,12 @@ void setup()
   Serial.println();
 
   // Connect to MySQL
-  if (conn.connect(server_addr, 3306, user, password, db_name)) {
+  if (conn.connect(server_addr, 3306, user, password, db_name))
+  {
     Serial.println("Connected to MySQL server successfully.");
-  } else {
+  }
+  else
+  {
     Serial.println("Connection to MySQL server failed.");
     return;
   }
@@ -314,8 +318,13 @@ void loop()
   // current sensor ends here
   Serial.println("--------------------");
 
+  // Insert data into MySQL
+  insertDataIntoMySQL(tempValue, soundValue, smokeValue, fuelLvlValue, vibrationValue, currentValue);
+
   digitalWrite(ledPin, HIGH); // turn on the LED
   delay(500);                 // wait for half a second or 500 milliseconds
   digitalWrite(ledPin, LOW);  // turn off the LED
   delay(500);                 // wait for half a second or 500 milliseconds
+
+  delay(5000);
 }
