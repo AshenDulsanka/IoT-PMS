@@ -5,6 +5,16 @@
 #include <WiFi.h>
 #include <MySQL_Connection.h>
 #include <MySQL_Cursor.h>
+#include <Firebase_ESP_Client.h>
+
+//Provide the token generation process info.
+#include "addons/TokenHelper.h"
+//Provide the RTDB payload printing info and other helper functions.
+#include "addons/RTDBHelper.h"
+
+//network credentials
+#define WIFI_SSID "DESKTOP-2PPQP65 7722"
+#define WIFI_PASSWORD "982E:56i"
 
 const int ledPin = 19;
 const int TEMP_PIN = 16;         // temp sensor
