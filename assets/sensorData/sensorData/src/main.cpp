@@ -2,6 +2,7 @@
 // libraries for temp sensor
 #include <OneWire.h>
 // libraries for temp sensor ends here
+#include <WiFi.h>
 
 const int ledPin = 19;
 const int TEMP_PIN = 16;         // temp sensor
