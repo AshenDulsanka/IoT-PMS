@@ -16,6 +16,24 @@
 #define WIFI_SSID "DESKTOP-2PPQP65 7722"
 #define WIFI_PASSWORD "982E:56i"
 
+// Insert Firebase project API Key
+#define API_KEY "AIzaSyBb0bjuBKrJyziUbjGGXg_dVsGPm4FrZGE"
+
+// Insert RTDB URLefine the RTDB URL */
+#define DATABASE_URL "https://pusl2022-uptime-default-rtdb.asia-southeast1.firebasedatabase.app/" 
+
+//Define Firebase Data object
+FirebaseData fbdo;
+
+FirebaseAuth auth;
+FirebaseConfig config;
+
+//mysql credentials
+IPAddress server_addr(192, 168, 1, 77); // IP of the MySQL server
+char user[] = "root";
+char password[] = "";
+char server[] = "pusl2022_uptime";
+
 const int ledPin = 19;
 const int TEMP_PIN = 16;         // temp sensor
 const int soundSensorPin = 32;   // sound sensor
