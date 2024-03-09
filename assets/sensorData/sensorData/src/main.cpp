@@ -3,8 +3,6 @@
 #include <OneWire.h>
 // libraries for temp sensor ends here
 #include <WiFi.h>
-#include <MySQL_Connection.h>
-#include <MySQL_Cursor.h>
 #include <Firebase_ESP_Client.h>
 
 // Provide the token generation process info.
@@ -28,27 +26,7 @@ FirebaseData fbdo;
 FirebaseAuth auth;
 FirebaseConfig config;
 
-// mysql credentials
-IPAddress server_addr(127, 0, 0, 1); // IP of the MySQL server
-char user[] = "root";
-char password[] = "";
-char db_name[] = "pusl2022_uptime";
-
 WiFiClient client;
-MySQL_Connection conn((Client *)&client);
-MySQL_Cursor *cur_mem;
-
-// Function to insert data into MySQL
-void insertDataIntoMySQL(double tempValue, int soundValue, int smokeValue, double fuelLvlValue, int vibrationValue, int currentValue) {
-  char sqlStatement[256]; // Adjust the size according to your SQL query length
-
-  snprintf(sqlStatement, sizeof(sqlStatement), "INSERT INTO sensordata (UID, timeofdata, vibration, temprature, fuelLevel, oilPressure, current, sound, gas) VALUES (1, NOW(), %d, %.2f, %.2f, 0, %d, %d, %d)",
-           vibrationValue, tempValue, fuelLvlValue, currentValue, soundValue, smokeValue);
-  
-  cur_mem = new MySQL_Cursor(&conn);
-  cur_mem->execute(sqlStatement);
-  delete cur_mem;
-}
 
 const int ledPin = 19;
 const int TEMP_PIN = 16;         // temp sensor
@@ -277,17 +255,6 @@ void setup()
   Serial.print("Connected with IP: ");
   Serial.println(WiFi.localIP());
   Serial.println();
-
-  // Connect to MySQL
-  if (conn.connect(server_addr, 3306, user, password, db_name))
-  {
-    Serial.println("Connected to MySQL server successfully.");
-  }
-  else
-  {
-    Serial.println("Connection to MySQL server failed.");
-    return;
-  }
 }
 
 void loop()
@@ -317,9 +284,6 @@ void loop()
   int currentValue = readCurrentValue();
   // current sensor ends here
   Serial.println("--------------------");
-
-  // Insert data into MySQL
-  insertDataIntoMySQL(tempValue, soundValue, smokeValue, fuelLvlValue, vibrationValue, currentValue);
 
   digitalWrite(ledPin, HIGH); // turn on the LED
   delay(500);                 // wait for half a second or 500 milliseconds
