@@ -235,6 +235,7 @@ int readCurrentValue()
   Serial.print(" V, Current: ");
   Serial.print(current);
   Serial.println(" A");
+  return current;
 }
 // current sensor ends here
 
