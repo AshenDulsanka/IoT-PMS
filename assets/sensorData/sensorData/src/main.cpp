@@ -32,7 +32,23 @@ FirebaseConfig config;
 IPAddress server_addr(192, 168, 1, 77); // IP of the MySQL server
 char user[] = "root";
 char password[] = "";
-char server[] = "pusl2022_uptime";
+char db_name[] = "pusl2022_uptime";
+
+WiFiClient client;
+MySQL_Connection conn((Client *)&client);
+
+// Function to insert data into MySQL
+void insertDataIntoMySQL(double tempValue, int soundValue, int smokeValue, double fuelLvlValue, int vibrationValue, int currentValue) {
+  MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
+  char sqlStatement[256]; // Create a buffer to hold the SQL query
+
+  snprintf(sqlStatement, sizeof(sqlStatement), "INSERT INTO sensordata (UID, timeofdata, vibration, temprature, fuelLevel, oilPressure, current, sound, gas) VALUES (1, NOW(), %d, %.2f, %.2f, 0, %d, %d, %d)",
+           vibrationValue, tempValue, fuelLvlValue, currentValue, soundValue, smokeValue);
+  
+  MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn); // Create a new MySQL Cursor object to execute the query
+  cur_mem->execute(sqlStatement); 
+  delete cur_mem;
+}
 
 const int ledPin = 19;
 const int TEMP_PIN = 16;         // temp sensor
@@ -249,6 +265,25 @@ void setup()
   pinMode(fuelLvlTrigPin, OUTPUT); // fuel level sensor
   pinMode(fuelLvlEchoPin, INPUT);  // fuel level sensor
   pinMode(vibSensornPin, INPUT);   // vibration sensor
+
+  // Connect to Wi-Fi
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println("Connecting to WiFi...");
+  }
+  Serial.println();
+  Serial.print("Connected with IP: ");
+  Serial.println(WiFi.localIP());
+  Serial.println();
+
+  // Connect to MySQL
+  if (conn.connect(server_addr, 3306, user, password, db_name)) {
+    Serial.println("Connected to MySQL server successfully.");
+  } else {
+    Serial.println("Connection to MySQL server failed.");
+    return;
+  }
 }
 
 void loop()
