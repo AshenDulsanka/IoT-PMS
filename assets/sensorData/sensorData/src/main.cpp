@@ -3,6 +3,8 @@
 #include <OneWire.h>
 // libraries for temp sensor ends here
 #include <WiFi.h>
+#include <MySQL_Connection.h>
+#include <MySQL_Cursor.h>
 
 const int ledPin = 19;
 const int TEMP_PIN = 16;         // temp sensor
