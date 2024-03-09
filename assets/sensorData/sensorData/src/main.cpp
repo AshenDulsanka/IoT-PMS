@@ -34,7 +34,7 @@ const int soundSensorPin = 32;   // sound sensor
 const int smokeSensorPin = 35;   // smoke sensor
 const int fuelLvlTrigPin = 5;    // fuel level sensor
 const int fuelLvlEchoPin = 18;   // fuel level sensor
-const int vibSensornPin = 39;     // vibration sensor
+const int vibSensornPin = 39;    // vibration sensor
 const int currentSensorPin = 34; // current sensor
 OneWire ds(TEMP_PIN);            // temp sensor
 
@@ -233,6 +233,9 @@ int readCurrentValue()
 }
 // current sensor ends here
 
+// Firebase
+bool signupOK = false;
+
 void setup()
 {
   // put your setup code here, to run once:
@@ -255,6 +258,30 @@ void setup()
   Serial.print("Connected with IP: ");
   Serial.println(WiFi.localIP());
   Serial.println();
+
+  /* Assign the api key (required) */
+  config.api_key = API_KEY;
+
+  /* Assign the RTDB URL (required) */
+  config.database_url = DATABASE_URL;
+
+  /* Sign up */
+  if (Firebase.signUp(&config, &auth, "", ""))
+  {
+    Serial.println("Firebase signed up successfully");
+    signupOK = true;
+  }
+  else
+  {
+    Serial.printf("Firebase sign up failed. Error: %s\n", config.signer.signupError.message.c_str());
+    return;
+  }
+
+  /* Assign the callback function for the long running token generation task */
+  config.token_status_callback = tokenStatusCallback; // see addons/TokenHelper.h
+
+  Firebase.begin(&config, &auth);
+  Firebase.reconnectWiFi(true);
 }
 
 void loop()
@@ -290,5 +317,71 @@ void loop()
   digitalWrite(ledPin, LOW);  // turn off the LED
   delay(500);                 // wait for half a second or 500 milliseconds
 
-  delay(5000);
+  // Firebase
+  // Construct the paths in the Firebase database where you want to store the sensor values
+  String tempPath = "sensors/temperature";
+  String soundPath = "sensors/sound";
+  String smokePath = "sensors/smoke";
+  String fuelLvlPath = "sensors/fuel_level";
+  String vibrationPath = "sensors/vibration";
+  String currentPath = "sensors/current";
+
+  // Send sensor values to the Firebase Realtime Database
+  if (Firebase.RTDB.setDouble(&fbdo, tempPath.c_str(), tempValue))
+  {
+    Serial.println("Temperature value sent to Firebase");
+  }
+  else
+  {
+    Serial.println("Failed to send temperature value to Firebase");
+  }
+
+  if (Firebase.RTDB.setInt(&fbdo, soundPath.c_str(), soundValue))
+  {
+    Serial.println("Sound value sent to Firebase");
+  }
+  else
+  {
+    Serial.println("Failed to send sound value to Firebase");
+  }
+
+  if (Firebase.RTDB.setInt(&fbdo, smokePath.c_str(), smokeValue))
+  {
+    Serial.println("Smoke value sent to Firebase");
+  }
+  else
+  {
+    Serial.println("Failed to send smoke value to Firebase");
+  }
+
+  if (Firebase.RTDB.setDouble(&fbdo, fuelLvlPath.c_str(), fuelLvlValue))
+  {
+    Serial.println("Fuel level value sent to Firebase");
+  }
+  else
+  {
+    Serial.println("Failed to send fuel level value to Firebase");
+  }
+
+  if (Firebase.RTDB.setInt(&fbdo, vibrationPath.c_str(), vibrationValue))
+  {
+    Serial.println("Vibration value sent to Firebase");
+  }
+  else
+  {
+    Serial.println("Failed to send vibration value to Firebase");
+  }
+
+  if (Firebase.RTDB.setInt(&fbdo, currentPath.c_str(), currentValue))
+  {
+    Serial.println("Current value sent to Firebase");
+  }
+  else
+  {
+    Serial.println("Failed to send current value to Firebase");
+  }
+
+  Serial.println("--------------------");
+
+  delay(5000); // Wait for 5 seconds before sending next set of sensor values
 }
