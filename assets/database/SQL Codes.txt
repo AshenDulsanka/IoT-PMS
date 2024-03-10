@@ -17,7 +17,7 @@ CREATE TABLE users (
 CREATE TABLE sensordata (
     logID INT PRIMARY KEY AUTO_INCREMENT,
     UID INT,
-    timeofdata DATETIME,
+    timeofdata DATETIME DEFAULT CURRENT_TIMESTAMP,
     vibration DECIMAL(10,2),
     temprature DECIMAL(10, 2),
     fuelLevel DECIMAL(10, 2),
