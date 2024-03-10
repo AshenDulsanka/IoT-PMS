@@ -336,6 +336,10 @@ void loop()
   // current sensor
   int currentValue = readCurrentValue();
   // current sensor ends here
+
+  // oil pressure sensor
+  int oilPressureValue = readOilPressureValue();
+  // oil pressure sensor ends here
   Serial.println("--------------------");
 
   digitalWrite(ledPin, HIGH); // turn on the LED
@@ -351,6 +355,7 @@ void loop()
   String fuelLvlPath = "sensors/fuel_level";
   String vibrationPath = "sensors/vibration";
   String currentPath = "sensors/current";
+  String oilPressurePath = "sensors/oil_pressure";
 
   // Send sensor values to the Firebase Realtime Database
   if (Firebase.RTDB.setDouble(&fbdo, tempPath.c_str(), tempValue))
@@ -407,10 +412,19 @@ void loop()
     Serial.println("Failed to send current value to Firebase");
   }
 
+  if (Firebase.RTDB.setInt(&fbdo, oilPressurePath.c_str(), oilPressureValue))
+  {
+    Serial.println("Oil pressure value sent to Firebase");
+  }
+  else
+  {
+    Serial.println("Failed to send oil pressure value to Firebase");
+  }
+
   Serial.println("--------------------");
 
   // Send sensor values to the MySQL database
-  String postData = "temp=" + String(tempValue) + "&sound=" + String(soundValue) + "&smoke=" + String(smokeValue) + "&fuelLvl=" + String(fuelLvlValue) + "&vibration=" + String(vibrationValue) + "&current=" + String((int)currentValue);
+  String postData = "temp=" + String(tempValue) + "&sound=" + String(soundValue) + "&smoke=" + String(smokeValue) + "&fuelLvl=" + String(fuelLvlValue) + "&vibration=" + String(vibrationValue) + "&current=" + String((int)currentValue) + "&oilPressure=" + String(oilPressureValue);
   HTTPClient http;
   http.begin(URL);
 
