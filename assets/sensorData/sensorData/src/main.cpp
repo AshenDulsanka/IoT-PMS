@@ -6,6 +6,13 @@
 
 const int ledPin = 19;
 
+// Provide the token generation process info.
+#include "addons/TokenHelper.h"
+// Provide the RTDB payload printing info and other helper functions.
+#include "addons/RTDBHelper.h"
+
+WiFiClient client;
+
 // Firebase
 bool signupOK = false;
 

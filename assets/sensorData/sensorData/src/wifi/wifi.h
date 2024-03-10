@@ -3,6 +3,4 @@
 
 void connectToWifi();
 
-extern WiFiClient client;
-
 #endif

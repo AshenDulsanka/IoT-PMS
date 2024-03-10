@@ -17,5 +17,3 @@ void connectToWifi()
     Serial.print("IP Address: ");
     Serial.println(WiFi.localIP());
 }
-
-WiFiClient client;
