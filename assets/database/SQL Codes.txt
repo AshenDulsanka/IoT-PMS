@@ -1,12 +1,12 @@
 --Create User table
 CREATE TABLE users (
-    UID INT PRIMARY KEY,
+    UID INT PRIMARY KEY AUTO_INCREMENT,
     Uname VARCHAR(500) NOT NULL,
-    Uaddress VARCHAR(1000) NOT NULL,
-    Uphone VARCHAR(10) NOT NULL,
     Uemail VARCHAR(200) NOT NULL,
     Upass VARCHAR(200) NOT NULL,
+    Uphone VARCHAR(10) NOT NULL,
     GenName VARCHAR(500) NOT NULL,
+    GenLocation VARCHAR(1000) NOT NULL,
     installationDate DATE NOT NULL,
     manufacturer VARCHAR(500) NOT NULL,
     lastMaintenanceDate DATE,
@@ -15,7 +15,7 @@ CREATE TABLE users (
 
 -- Create SensorData table
 CREATE TABLE sensordata (
-    logID INT PRIMARY KEY,
+    logID INT PRIMARY KEY AUTO_INCREMENT,
     UID INT,
     timeofdata DATETIME,
     vibration DECIMAL(10,2),
