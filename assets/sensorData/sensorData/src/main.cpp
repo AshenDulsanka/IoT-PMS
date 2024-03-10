@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <ArduinoJson.h> // Include the ArduinoJson library for JSON manipulation
 // libraries for temp sensor
 #include <OneWire.h>
 // libraries for temp sensor ends here
