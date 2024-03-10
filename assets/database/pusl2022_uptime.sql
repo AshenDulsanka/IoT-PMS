@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 08, 2024 at 05:16 AM
+-- Generation Time: Mar 10, 2024 at 08:31 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.0.25
 
@@ -40,6 +40,13 @@ CREATE TABLE `sensordata` (
   `gas` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `sensordata`
+--
+
+INSERT INTO `sensordata` (`logID`, `UID`, `timeofdata`, `vibration`, `temprature`, `fuelLevel`, `oilPressure`, `current`, `sound`, `gas`) VALUES
+(1, 1, '2024-03-10 13:01:28', '4.00', '23.00', '31.00', '0.00', '22.00', '63.00', '711.00');
+
 -- --------------------------------------------------------
 
 --
@@ -49,8 +56,9 @@ CREATE TABLE `sensordata` (
 CREATE TABLE `users` (
   `UID` int(11) NOT NULL,
   `Uname` varchar(500) NOT NULL,
-  `Uphone` varchar(10) NOT NULL,
   `Uemail` varchar(200) NOT NULL,
+  `Upass` varchar(200) NOT NULL,
+  `Uphone` varchar(10) NOT NULL,
   `GenName` varchar(500) NOT NULL,
   `GenLocation` varchar(1000) NOT NULL,
   `installationDate` date NOT NULL,
@@ -58,6 +66,14 @@ CREATE TABLE `users` (
   `lastMaintenanceDate` date DEFAULT NULL,
   `operatingHours` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`UID`, `Uname`, `Uemail`, `Upass`, `Uphone`, `GenName`, `GenLocation`, `installationDate`, `manufacturer`, `lastMaintenanceDate`, `operatingHours`) VALUES
+(1, 'Ashen Abeysekara', 'ashendul@gmail.com', 'examplepassword123', '0778494082', 'PowerMax 5000', 'No.3 Samagi Mawatha, Depanama, Pannipitiya', '2023-12-15', 'GenCorp', NULL, 25),
+(2, 'Johnson Corp', 'johnson@example.com', 'securepassword', '5559876543', 'UltraGen 200', 'Warehouse', '2024-01-23', 'SuperGen', NULL, 0);
 
 --
 -- Indexes for dumped tables
@@ -75,6 +91,22 @@ ALTER TABLE `sensordata`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`UID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `sensordata`
+--
+ALTER TABLE `sensordata`
+  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `UID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
