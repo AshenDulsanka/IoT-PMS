@@ -29,6 +29,9 @@ FirebaseConfig config;
 
 WiFiClient client;
 
+//mysql
+const String URL = "https://uptimesensordata.000webhostapp.com/sensordata.php";
+
 const int ledPin = 19;
 const int TEMP_PIN = 16;         // temp sensor
 const int soundSensorPin = 32;   // sound sensor
@@ -236,7 +239,21 @@ int readCurrentValue()
 
 // Firebase
 bool signupOK = false;
-// refresh token
+
+//connecting to wifi
+void connectToWifi()
+{
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    delay(1000);
+    Serial.println("Connecting to WiFi...");
+  }
+  Serial.println();
+  Serial.print("Connected with IP: ");
+  Serial.println(WiFi.localIP());
+  Serial.println();
+}
 
 void setup()
 {
@@ -250,16 +267,7 @@ void setup()
   pinMode(vibSensornPin, INPUT);   // vibration sensor
 
   // Connect to Wi-Fi
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-  while (WiFi.status() != WL_CONNECTED)
-  {
-    delay(1000);
-    Serial.println("Connecting to WiFi...");
-  }
-  Serial.println();
-  Serial.print("Connected with IP: ");
-  Serial.println(WiFi.localIP());
-  Serial.println();
+  connectToWifi();
 
   /* Assign the api key (required) */
   config.api_key = API_KEY;
@@ -288,6 +296,10 @@ void setup()
 
 void loop()
 {
+  if(WiFi.status() != WL_CONNECTED){
+    connectToWifi();
+  }
+  
   Serial.println("--------------------");
   // Read temperature
   double tempValue = readTempValue();
@@ -382,6 +394,27 @@ void loop()
   {
     Serial.println("Failed to send current value to Firebase");
   }
+
+  Serial.println("--------------------");
+
+  // Send sensor values to the MySQL database
+  String postData = "temp=" + String(tempValue) + "&sound=" + String(soundValue) + "&smoke=" + String(smokeValue) + "&fuelLvl=" + String(fuelLvlValue) + "&vibration=" + String(vibrationValue) + "&current=" + String((int)currentValue);
+  HTTPClient http;
+  http.begin(URL);
+
+  int httpCode = http.POST(postData);
+  String payload = http.getString();
+
+  http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+
+  Serial.print("URL: ");
+  Serial.println(URL);
+  Serial.print("Data: ");
+  Serial.println(postData);
+  Serial.print("HTTP Code: ");
+  Serial.println(httpCode);
+  Serial.print("Payload: ");
+  Serial.println(payload);
 
   Serial.println("--------------------");
 
