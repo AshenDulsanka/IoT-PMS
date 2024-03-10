@@ -4,6 +4,8 @@
 // libraries for temp sensor ends here
 #include <WiFi.h>
 #include <Firebase_ESP_Client.h>
+//mysql 
+#include <HTTPClient.h>
 
 // Provide the token generation process info.
 #include "addons/TokenHelper.h"
@@ -22,7 +24,6 @@
 
 // Define Firebase Data object
 FirebaseData fbdo;
-
 FirebaseAuth auth;
 FirebaseConfig config;
 
@@ -235,6 +236,7 @@ int readCurrentValue()
 
 // Firebase
 bool signupOK = false;
+// refresh token
 
 void setup()
 {
