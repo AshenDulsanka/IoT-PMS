@@ -24,13 +24,13 @@ $password = "UpTime@lanka234";
 // If you change this value, the ESP32 sketch needs to match
 $api_key_value = "tPmAT5Ab3j7F9";
 
-$api_key = $vibration = $temperature = $fuelLevel = $oilPressure = $current = $sound = $gas = "";
+$api_key = $vibration = $temprature = $fuelLevel = $oilPressure = $current = $sound = $gas = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $api_key = test_input($_POST["api_key"]);
     if ($api_key == $api_key_value) {
         $vibration = test_input($_POST["vibration"]);
-        $temperature = test_input($_POST["temperature"]);
+        $temprature = test_input($_POST["temprature"]);
         $fuelLevel = test_input($_POST["fuelLevel"]);
         $oilPressure = test_input($_POST["oilPressure"]);
         $current = test_input($_POST["current"]);
@@ -44,8 +44,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql = "INSERT INTO sensordata (UID, vibration, temperature, fuelLevel, oilPressure, current, sound, gas)
-        VALUES (1, '" . $vibration . "', '" . $temperature . "', '" . $fuelLevel . "', '" . $oilPressure . "', '" . $current . "', '" . $sound . "', '" . $gas . "')";
+        $sql = "INSERT INTO sensordata (UID, vibration, temprature, fuelLevel, oilPressure, current, sound, gas)
+        VALUES (1, '" . $vibration . "', '" . $temprature . "', '" . $fuelLevel . "', '" . $oilPressure . "', '" . $current . "', '" . $sound . "', '" . $gas . "')";
 
         if ($conn->query($sql) === TRUE) {
             echo "New record created successfully";

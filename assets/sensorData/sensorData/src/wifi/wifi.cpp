@@ -1,5 +1,6 @@
 #include "wifi.h"
 #include <WiFi.h>
+#include <WiFiClientSecure.h>
 
 const char *WIFI_SSID = "DESKTOP-2PPQP65 7722";
 const char *WIFI_PASSWORD = "982E:56i";

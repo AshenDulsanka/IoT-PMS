@@ -1,6 +1,6 @@
 #include "mysql.h"
 
-const String URL = "http://192.168.1.77/pusl2022UpTime/sensordata.php";
+const String URL = "https://uptimesensordata.000webhostapp.com/post-esp-data.php";
 
 void sendDataToMySQL(double tempValue, int soundValue, int smokeValue, double fuelLvlValue, int vibrationValue, int currentValue, int oilPressureValue)
 {
