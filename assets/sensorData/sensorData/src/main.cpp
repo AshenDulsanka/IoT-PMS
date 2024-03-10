@@ -4,7 +4,7 @@
 // libraries for temp sensor ends here
 #include <WiFi.h>
 #include <Firebase_ESP_Client.h>
-//mysql 
+// mysql
 #include <HTTPClient.h>
 
 // Provide the token generation process info.
@@ -29,7 +29,7 @@ FirebaseConfig config;
 
 WiFiClient client;
 
-//mysql
+// mysql
 const String URL = "https://uptimesensordata.000webhostapp.com/sensordata.php";
 
 const int ledPin = 19;
@@ -237,10 +237,21 @@ int readCurrentValue()
 }
 // current sensor ends here
 
+// oil pressure sensor
+int readOilPressureValue()
+{
+  int oilPressureValue = 0;
+  Serial.print("Oil Pressure Value: ");
+  Serial.print(oilPressureValue);
+  Serial.println(" psi");
+  return oilPressureValue;
+}
+// oil pressure sensor ends here
+
 // Firebase
 bool signupOK = false;
 
-//connecting to wifi
+// connecting to wifi
 void connectToWifi()
 {
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
@@ -296,10 +307,11 @@ void setup()
 
 void loop()
 {
-  if(WiFi.status() != WL_CONNECTED){
+  if (WiFi.status() != WL_CONNECTED)
+  {
     connectToWifi();
   }
-  
+
   Serial.println("--------------------");
   // Read temperature
   double tempValue = readTempValue();
