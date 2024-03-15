@@ -10,7 +10,7 @@ class Vibration extends StatelessWidget {
       backgroundColor: Colors.grey[900],
       body: Center(
         child: Container(
-          padding: EdgeInsets.all(20.0),
+          padding: EdgeInsets.fromLTRB(20.0, 220.0, 20.0, 0.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -22,7 +22,7 @@ class Vibration extends StatelessWidget {
               ),
               SizedBox(height: 20),
               Text(
-                "Vibration",
+                "Vibration Level",
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -32,15 +32,15 @@ class Vibration extends StatelessWidget {
               ),
               SizedBox(height: 80),
               Text(
-                "Vibration Level: 25Hz",
+                "25 mm/s",
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 50,
                   fontWeight: FontWeight.normal,
                   color: Colors.white,
                   fontFamily: "Poppins",
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 40),
               Text(
                 "Status: Normal",
                 style: TextStyle(
