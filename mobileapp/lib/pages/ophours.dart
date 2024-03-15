@@ -10,7 +10,7 @@ class OpHours extends StatelessWidget {
       backgroundColor: Colors.grey[900],
       body: Center(
         child: Container(
-          padding: EdgeInsets.all(20.0),
+          padding: EdgeInsets.fromLTRB(20.0, 200.0, 20.0, 0.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -20,7 +20,7 @@ class OpHours extends StatelessWidget {
                 height: 200,
                 alignment: Alignment.topCenter,
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 40),
               Text(
                 "Operating Hours",
                 style: TextStyle(
@@ -30,21 +30,11 @@ class OpHours extends StatelessWidget {
                   fontFamily: "Poppins",
                 ),
               ),
-              SizedBox(height: 80),
+              SizedBox(height: 60),
               Text(
-                "Operating Hours: 25hrs",
+                "25 hrs",
                 style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.normal,
-                  color: Colors.white,
-                  fontFamily: "Poppins",
-                ),
-              ),
-              SizedBox(height: 20),
-              Text(
-                "Status: Normal",
-                style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 50,
                   fontWeight: FontWeight.normal,
                   color: Colors.white,
                   fontFamily: "Poppins",
