@@ -31,63 +31,11 @@ void sendDataToFirebase(double tempValue, int soundValue, int smokeValue, double
     String currentPath = "sensors/current";
     String oilPressurePath = "sensors/oil_pressure";
 
-    if (Firebase.RTDB.setDouble(&fbdo, tempPath.c_str(), tempValue)) {
-        Serial.println("Temperature value sent to Firebase");
-    } else {
-        Serial.println("Failed to send temperature value to Firebase");
-    }
-
-    if (Firebase.RTDB.setInt(&fbdo, soundPath.c_str(), soundValue))
-  {
-    Serial.println("Sound value sent to Firebase");
-  }
-  else
-  {
-    Serial.println("Failed to send sound value to Firebase");
-  }
-
-  if (Firebase.RTDB.setInt(&fbdo, smokePath.c_str(), smokeValue))
-  {
-    Serial.println("Smoke value sent to Firebase");
-  }
-  else
-  {
-    Serial.println("Failed to send smoke value to Firebase");
-  }
-
-  if (Firebase.RTDB.setDouble(&fbdo, fuelLvlPath.c_str(), fuelLvlValue))
-  {
-    Serial.println("Fuel level value sent to Firebase");
-  }
-  else
-  {
-    Serial.println("Failed to send fuel level value to Firebase");
-  }
-
-  if (Firebase.RTDB.setInt(&fbdo, vibrationPath.c_str(), vibrationValue))
-  {
-    Serial.println("Vibration value sent to Firebase");
-  }
-  else
-  {
-    Serial.println("Failed to send vibration value to Firebase");
-  }
-
-  if (Firebase.RTDB.setInt(&fbdo, currentPath.c_str(), currentValue))
-  {
-    Serial.println("Current value sent to Firebase");
-  }
-  else
-  {
-    Serial.println("Failed to send current value to Firebase");
-  }
-
-  if (Firebase.RTDB.setInt(&fbdo, oilPressurePath.c_str(), oilPressureValue))
-  {
-    Serial.println("Oil pressure value sent to Firebase");
-  }
-  else
-  {
-    Serial.println("Failed to send oil pressure value to Firebase");
-  }
+  Firebase.RTDB.setDouble(&fbdo, tempPath.c_str(), tempValue);
+  Firebase.RTDB.setInt(&fbdo, soundPath.c_str(), soundValue);
+  Firebase.RTDB.setInt(&fbdo, smokePath.c_str(), smokeValue);
+  Firebase.RTDB.setDouble(&fbdo, fuelLvlPath.c_str(), fuelLvlValue);
+  Firebase.RTDB.setInt(&fbdo, vibrationPath.c_str(), vibrationValue);
+  Firebase.RTDB.setInt(&fbdo, currentPath.c_str(), currentValue);
+  Firebase.RTDB.setInt(&fbdo, oilPressurePath.c_str(), oilPressureValue);
 }

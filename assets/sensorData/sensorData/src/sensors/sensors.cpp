@@ -19,9 +19,6 @@ long fuelLvlDuration;
 float FuelLvlDistanceCm;
 float fuelLvlDistanceInch;
 
-// for vibration sensor
-int buttonState = 0; // variable for reading the pushbutton status
-
 void setupSensors() {
     // Initialization code for sensors
     pinMode(soundSensorPin, INPUT);
@@ -191,11 +188,11 @@ int readSmokeValue()
 // vibration sensor
 int readVibrationValue()
 {
-  buttonState = analogRead(vibSensornPin);
+  int vibrationValue = analogRead(vibSensornPin);
   Serial.print("Vibration Value: ");
-  Serial.print(buttonState);
+  Serial.print(vibrationValue);
   Serial.println(" mm/s");
-  return buttonState;
+  return vibrationValue;
 }
 // vibration sensor ends here
 

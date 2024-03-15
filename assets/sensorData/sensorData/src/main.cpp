@@ -23,7 +23,7 @@ const char *serverName = "https://uptimesensordata.000webhostapp.com/post-esp-da
 bool signupOK = false;
 
 // Periodic restart interval (milliseconds)
-const unsigned long RESTART_INTERVAL = 300000; // Restart every 5 minutes
+const unsigned long RESTART_INTERVAL = 10000; // Restart every 5 minutes
 
 // Last restart time
 unsigned long lastRestartTime = 0;
@@ -90,8 +90,6 @@ void loop()
                              "&current=" + String(currentValue) +
                              "&sound=" + String(soundValue) +
                              "&gas=" + String(smokeValue);
-  Serial.print("httpRequestData: ");
-  Serial.println(httpRequestData);
 
   // You can comment the httpRequestData variable above
   // then, use the httpRequestData variable below (for testing purposes without the BME280 sensor)

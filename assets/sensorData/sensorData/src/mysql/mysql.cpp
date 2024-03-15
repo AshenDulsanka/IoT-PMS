@@ -12,12 +12,6 @@ void sendDataToMySQL(double tempValue, int soundValue, int smokeValue, double fu
     int httpCode = http.POST(postData);
     String payload = http.getString();
 
-    Serial.print("URL: ");
-    Serial.println(URL);
-    Serial.print("Data: ");
-    Serial.println(postData);
     Serial.print("HTTP Code: ");
     Serial.println(httpCode);
-    Serial.print("Payload: ");
-    Serial.println(payload);
 }
