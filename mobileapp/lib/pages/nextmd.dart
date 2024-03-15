@@ -10,7 +10,7 @@ class NextMD extends StatelessWidget {
       backgroundColor: Colors.grey[900],
       body: Center(
         child: Container(
-          padding: EdgeInsets.all(20.0),
+          padding: EdgeInsets.fromLTRB(20.0, 220.0, 20.0, 0.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -32,19 +32,9 @@ class NextMD extends StatelessWidget {
               ),
               SizedBox(height: 80),
               Text(
-                "Date: 25/12/2021",
+                "25/12/2024",
                 style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.normal,
-                  color: Colors.white,
-                  fontFamily: "Poppins",
-                ),
-              ),
-              SizedBox(height: 20),
-              Text(
-                "Status: Normal",
-                style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 40,
                   fontWeight: FontWeight.normal,
                   color: Colors.white,
                   fontFamily: "Poppins",
