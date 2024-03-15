@@ -10,7 +10,7 @@ class Current extends StatelessWidget {
       backgroundColor: Colors.grey[900],
       body: Center(
         child: Container(
-          padding: EdgeInsets.all(20.0),
+          padding: EdgeInsets.fromLTRB(20.0, 220.0, 20.0, 0.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -20,7 +20,6 @@ class Current extends StatelessWidget {
                 height: 200,
                 alignment: Alignment.topCenter,
               ),
-              SizedBox(height: 20),
               Text(
                 "Current/Load",
                 style: TextStyle(
@@ -32,15 +31,15 @@ class Current extends StatelessWidget {
               ),
               SizedBox(height: 80),
               Text(
-                "Current: 25A",
+                "25A",
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 50,
                   fontWeight: FontWeight.normal,
                   color: Colors.white,
                   fontFamily: "Poppins",
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 40),
               Text(
                 "Status: Normal",
                 style: TextStyle(
