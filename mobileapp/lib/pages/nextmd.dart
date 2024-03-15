@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import './home.dart';
 
-class Sound extends StatelessWidget {
-  const Sound({Key? key}) : super(key: key);
+class NextMD extends StatelessWidget {
+  const NextMD({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,14 +15,14 @@ class Sound extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Image(
-                image: AssetImage("assets/sound.png"),
+                image: AssetImage("assets/next_md.png"),
                 width: 200,
                 height: 200,
                 alignment: Alignment.topCenter,
               ),
               SizedBox(height: 20),
               Text(
-                "Sound",
+                "Next Maintenance Date",
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -32,7 +32,7 @@ class Sound extends StatelessWidget {
               ),
               SizedBox(height: 80),
               Text(
-                "Sound Level: 25dB",
+                "Date: 25/12/2021",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.normal,
