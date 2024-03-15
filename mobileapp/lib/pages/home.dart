@@ -18,57 +18,73 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[900],
-      body: Container(
-        padding: EdgeInsets.only(top: 120), // Padding added to push content down
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Text(
-                "Generator Name",
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+      appBar: AppBar(
+        title: Text(
+          "Home",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.grey[900], // Set app bar color to match background
+        elevation: 0, // Remove elevation
+      ),
+      body: SafeArea(
+        child: Container(
+          padding: EdgeInsets.only(top: 50), // Padding added to push content down
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Text(
+                  "Generator Name",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 10), // Adding space between text rows and buttons
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Text(
-                "Row 2",
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.normal,
+              SizedBox(height: 10), // Adding space between text rows and buttons
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Text(
+                  "Row 2",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 20), // Adding space between text rows and buttons
-            Expanded(
-              child: Center( // Centering the last row
-                child: GridView.count(
-                  crossAxisCount: 3,
-                  children: [
-                    _buildButton(context, 'Coolant Temperature', 'assets/coolant_temperature.png', Temp()),
-                    _buildButton(context, 'Fuel Level', 'assets/fuel_level.png', Fuel()),
-                    _buildButton(context, 'Oil Pressure', 'assets/oil_pressure.png', OilPressure()),
-                    _buildButton(context, 'Current/Load', 'assets/current_load.png', Current()),
-                    _buildButton(context, 'Vibration', 'assets/vibration.png', Vibration()),
-                    _buildButton(context, 'Sound', 'assets/sound.png', Sound()),
-                    _buildButton(context, 'Gas', 'assets/gas.png', Gas()),
-                    _buildButton(context, 'Operating Hours', 'assets/operating_hours.png', OpHours()),
-                    _buildButton(context, 'Next MD', 'assets/next_md.png', NextMD()),
-                    _buildButton(context, 'RUL', 'assets/rul.png', Rul()),
-                  ],
+              SizedBox(height: 20), // Adding space between text rows and buttons
+              Expanded(
+                child: Center( // Centering the last row
+                  child: GridView.count(
+                    crossAxisCount: 3,
+                    children: [
+                      _buildButton(context, 'Coolant Temperature', 'assets/coolant_temperature.png', Temp()),
+                      _buildButton(context, 'Fuel Level', 'assets/fuel_level.png', Fuel()),
+                      _buildButton(context, 'Oil Pressure', 'assets/oil_pressure.png', OilPressure()),
+                      _buildButton(context, 'Current/Load', 'assets/current_load.png', Current()),
+                      _buildButton(context, 'Vibration', 'assets/vibration.png', Vibration()),
+                      _buildButton(context, 'Sound', 'assets/sound.png', Sound()),
+                      _buildButton(context, 'Gas', 'assets/gas.png', Gas()),
+                      _buildButton(context, 'Operating Hours', 'assets/operating_hours.png', OpHours()),
+                      _buildButton(context, 'Next MD', 'assets/next_md.png', NextMD()),
+                      _buildButton(context, 'RUL', 'assets/rul.png', Rul()),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -108,3 +124,4 @@ class Home extends StatelessWidget {
     );
   }
 }
+
