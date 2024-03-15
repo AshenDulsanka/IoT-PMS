@@ -52,7 +52,7 @@ class Current extends StatelessWidget {
                     fontFamily: "Poppins",
                   ),
                 ),
-                SizedBox(height: 40),
+                SizedBox(height: 20),
                 Text(
                   "Status: Normal",
                   style: TextStyle(

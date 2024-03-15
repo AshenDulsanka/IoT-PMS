@@ -32,7 +32,7 @@ class OilPressure extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Container(
-            padding: EdgeInsets.fromLTRB(20.0, 120.0, 20.0, 0.0),
+            padding: EdgeInsets.fromLTRB(20.0, 150.0, 20.0, 0.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -52,7 +52,7 @@ class OilPressure extends StatelessWidget {
                     fontFamily: "Poppins",
                   ),
                 ),
-                SizedBox(height: 40),
+                SizedBox(height: 20),
                 Text(
                   "Status: Normal",
                   style: TextStyle(
