@@ -10,7 +10,7 @@ class Gas extends StatelessWidget {
       backgroundColor: Colors.grey[900],
       body: Center(
         child: Container(
-          padding: EdgeInsets.all(20.0),
+          padding: EdgeInsets.fromLTRB(20.0, 220.0, 20.0, 0.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -20,9 +20,8 @@ class Gas extends StatelessWidget {
                 height: 200,
                 alignment: Alignment.topCenter,
               ),
-              SizedBox(height: 20),
               Text(
-                "Gas",
+                "Gas Level",
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -32,19 +31,9 @@ class Gas extends StatelessWidget {
               ),
               SizedBox(height: 80),
               Text(
-                "Gas Level: 25%",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.normal,
-                  color: Colors.white,
-                  fontFamily: "Poppins",
-                ),
-              ),
-              SizedBox(height: 20),
-              Text(
                 "Status: Normal",
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 40,
                   fontWeight: FontWeight.normal,
                   color: Colors.white,
                   fontFamily: "Poppins",
