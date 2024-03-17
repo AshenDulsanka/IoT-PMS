@@ -21,10 +21,10 @@ const char *serverName = "https://uptimesensordata.000webhostapp.com/post-esp-da
 bool signupOK = false;
 
 // Periodic restart interval (milliseconds)
-// const unsigned long RESTART_INTERVAL = 60000; // Restart every 5 minutes
+const unsigned long RESTART_INTERVAL = 60000; // Restart every 1 minutes
 
 // Last restart time
-// unsigned long lastRestartTime = 0;
+unsigned long lastRestartTime = 0;
 
 void setup()
 {
@@ -38,21 +38,21 @@ void setup()
 
 void loop()
 {
-  // unsigned long currentTime = millis();
+  unsigned long currentTime = millis();
 
   // Check if it's time to restart
-  // if (currentTime - lastRestartTime >= RESTART_INTERVAL)
-  // {
-  //   Serial.println("Restarting...");
-  //   delay(100);    // Delay to allow serial output to complete
-  //   ESP.restart(); // Restart the device
-  // }
+  if (currentTime - lastRestartTime >= RESTART_INTERVAL)
+  {
+    Serial.println("Restarting...");
+    delay(100);    // Delay to allow serial output to complete
+    ESP.restart(); // Restart the device
+  }
 
   Serial.println("---------------------");
-  // if (WiFi.status() != WL_CONNECTED)
-  // {
-  //   connectToWifi();
-  // }
+  if (WiFi.status() != WL_CONNECTED)
+  {
+    connectToWifi();
+  }
 
   double tempValue = readTempValue();
   int soundValue = readSoundValue();
@@ -116,5 +116,5 @@ void loop()
   delay(5000); // Wait for 5 seconds before sending next set of sensor values
 
   // Update last restart time
-  // lastRestartTime = currentTime;
+  lastRestartTime = currentTime;
 }
