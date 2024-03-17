@@ -13,8 +13,6 @@ const int ledPin = 19;
 
 WiFiClient client;
 
-// Keep this API Key value to be compatible with the PHP code provided in the project page.
-// If you change the apiKeyValue value, the PHP file /post-esp-data.php also needs to have the same key
 String apiKeyValue = "tPmAT5Ab3j7F9";
 
 const char *serverName = "https://uptimesensordata.000webhostapp.com/post-esp-data.php";
@@ -23,10 +21,10 @@ const char *serverName = "https://uptimesensordata.000webhostapp.com/post-esp-da
 bool signupOK = false;
 
 // Periodic restart interval (milliseconds)
-const unsigned long RESTART_INTERVAL = 10000; // Restart every 5 minutes
+// const unsigned long RESTART_INTERVAL = 60000; // Restart every 5 minutes
 
 // Last restart time
-unsigned long lastRestartTime = 0;
+// unsigned long lastRestartTime = 0;
 
 void setup()
 {
@@ -40,20 +38,21 @@ void setup()
 
 void loop()
 {
-  unsigned long currentTime = millis();
+  // unsigned long currentTime = millis();
 
   // Check if it's time to restart
-  if (currentTime - lastRestartTime >= RESTART_INTERVAL) {
-    Serial.println("Restarting...");
-    delay(100); // Delay to allow serial output to complete
-    ESP.restart(); // Restart the device
-  }
+  // if (currentTime - lastRestartTime >= RESTART_INTERVAL)
+  // {
+  //   Serial.println("Restarting...");
+  //   delay(100);    // Delay to allow serial output to complete
+  //   ESP.restart(); // Restart the device
+  // }
 
   Serial.println("---------------------");
-  if (WiFi.status() != WL_CONNECTED)
-  {
-    connectToWifi();
-  }
+  // if (WiFi.status() != WL_CONNECTED)
+  // {
+  //   connectToWifi();
+  // }
 
   double tempValue = readTempValue();
   int soundValue = readSoundValue();
@@ -83,28 +82,16 @@ void loop()
 
   // Prepare your HTTP POST request data
   String httpRequestData = "api_key=" + apiKeyValue +
-                             "&vibration=" + String(vibrationValue) +
-                             "&temprature=" + String(tempValue) +
-                             "&fuelLevel=" + String(fuelLvlValue) +
-                             "&oilPressure=" + String(oilPressureValue) +
-                             "&current=" + String(currentValue) +
-                             "&sound=" + String(soundValue) +
-                             "&gas=" + String(smokeValue);
-
-  // You can comment the httpRequestData variable above
-  // then, use the httpRequestData variable below (for testing purposes without the BME280 sensor)
-  // String httpRequestData = "api_key=tPmAT5Ab3j7F9&sensor=BME280&location=Office&value1=24.75&value2=49.54&value3=1005.14";
+                           "&vibration=" + String(vibrationValue) +
+                           "&temprature=" + String(tempValue) +
+                           "&fuelLevel=" + String(fuelLvlValue) +
+                           "&oilPressure=" + String(oilPressureValue) +
+                           "&current=" + String(currentValue) +
+                           "&sound=" + String(soundValue) +
+                           "&gas=" + String(smokeValue);
 
   // Send HTTP POST request
   int httpResponseCode = https.POST(httpRequestData);
-
-  // If you need an HTTP request with a content type: text/plain
-  // https.addHeader("Content-Type", "text/plain");
-  // int httpResponseCode = https.POST("Hello, World!");
-
-  // If you need an HTTP request with a content type: application/json, use the following:
-  // https.addHeader("Content-Type", "application/json");
-  // int httpResponseCode = https.POST("{\"value1\":\"19\",\"value2\":\"67\",\"value3\":\"78\"}");
 
   if (httpResponseCode > 0)
   {
@@ -118,7 +105,6 @@ void loop()
   }
   // Free resources
   https.end();
-  
 
   Serial.println("--------------------");
 
@@ -130,5 +116,5 @@ void loop()
   delay(5000); // Wait for 5 seconds before sending next set of sensor values
 
   // Update last restart time
-  lastRestartTime = currentTime;
+  // lastRestartTime = currentTime;
 }
