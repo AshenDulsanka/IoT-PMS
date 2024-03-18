@@ -1,8 +1,8 @@
 #include "wifi.h"
 #include <WiFi.h>
 
-const char *WIFI_SSID = "notpixel";
-const char *WIFI_PASSWORD = "aDul1234";
+const char *WIFI_SSID = "botpc";
+const char *WIFI_PASSWORD = "982E:56i";
 
 void connectToWifi()
 {
