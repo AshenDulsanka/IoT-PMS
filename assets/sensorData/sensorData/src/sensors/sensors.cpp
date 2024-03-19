@@ -19,13 +19,14 @@ long fuelLvlDuration;
 float FuelLvlDistanceCm;
 float fuelLvlDistanceInch;
 
-void setupSensors() {
-    // Initialization code for sensors
-    pinMode(soundSensorPin, INPUT);
-    pinMode(TEMP_PIN, INPUT);
-    pinMode(fuelLvlTrigPin, OUTPUT);
-    pinMode(fuelLvlEchoPin, INPUT);
-    pinMode(vibSensornPin, INPUT);
+void setupSensors()
+{
+  // Initialization code for sensors
+  pinMode(soundSensorPin, INPUT);
+  pinMode(TEMP_PIN, INPUT);
+  pinMode(fuelLvlTrigPin, OUTPUT);
+  pinMode(fuelLvlEchoPin, INPUT);
+  pinMode(vibSensornPin, INPUT);
 }
 
 // temp sensor
@@ -209,7 +210,7 @@ int readCurrentValue()
   Serial.print(" V, Current: ");
   Serial.print(current);
   Serial.println(" A");
-  return current;
+  return voltage;
 }
 // current sensor ends here
 

@@ -5,14 +5,18 @@ FirebaseData fbdo;
 FirebaseAuth auth;
 FirebaseConfig config;
 
-void setupFirebase() {
+void setupFirebase()
+{
     // Firebase setup code
     config.api_key = "AIzaSyBb0bjuBKrJyziUbjGGXg_dVsGPm4FrZGE";
     config.database_url = "https://pusl2022-uptime-default-rtdb.asia-southeast1.firebasedatabase.app/";
 
-    if (Firebase.signUp(&config, &auth, "", "")) {
+    if (Firebase.signUp(&config, &auth, "", ""))
+    {
         Serial.println("Firebase signed up successfully");
-    } else {
+    }
+    else
+    {
         Serial.printf("Firebase sign up failed. Error: %s\n", config.signer.signupError.message.c_str());
         return;
     }
@@ -21,7 +25,8 @@ void setupFirebase() {
     Firebase.reconnectWiFi(true);
 }
 
-void sendDataToFirebase(double tempValue, int soundValue, int smokeValue, double fuelLvlValue, int vibrationValue, int currentValue, int oilPressureValue) {
+void sendDataToFirebase(double tempValue, int soundValue, int smokeValue, double fuelLvlValue, int vibrationValue, double currentValue, int oilPressureValue)
+{
     // Logic to send data to Firebase
     String tempPath = "sensors/temperature";
     String soundPath = "sensors/sound";
@@ -31,11 +36,11 @@ void sendDataToFirebase(double tempValue, int soundValue, int smokeValue, double
     String currentPath = "sensors/current";
     String oilPressurePath = "sensors/oil_pressure";
 
-  Firebase.RTDB.setDouble(&fbdo, tempPath.c_str(), tempValue);
-  Firebase.RTDB.setInt(&fbdo, soundPath.c_str(), soundValue);
-  Firebase.RTDB.setInt(&fbdo, smokePath.c_str(), smokeValue);
-  Firebase.RTDB.setDouble(&fbdo, fuelLvlPath.c_str(), fuelLvlValue);
-  Firebase.RTDB.setInt(&fbdo, vibrationPath.c_str(), vibrationValue);
-  Firebase.RTDB.setInt(&fbdo, currentPath.c_str(), currentValue);
-  Firebase.RTDB.setInt(&fbdo, oilPressurePath.c_str(), oilPressureValue);
+    Firebase.RTDB.setDouble(&fbdo, tempPath.c_str(), tempValue);
+    Firebase.RTDB.setInt(&fbdo, soundPath.c_str(), soundValue);
+    Firebase.RTDB.setInt(&fbdo, smokePath.c_str(), smokeValue);
+    Firebase.RTDB.setDouble(&fbdo, fuelLvlPath.c_str(), fuelLvlValue);
+    Firebase.RTDB.setInt(&fbdo, vibrationPath.c_str(), vibrationValue);
+    Firebase.RTDB.setDouble(&fbdo, currentPath.c_str(), currentValue);
+    Firebase.RTDB.setInt(&fbdo, oilPressurePath.c_str(), oilPressureValue);
 }

@@ -59,7 +59,7 @@ void loop()
   int smokeValue = readSmokeValue();
   double fuelLvlValue = readFuelValue();
   int vibrationValue = readVibrationValue();
-  int currentValue = readCurrentValue();
+  double currentValue = readCurrentValue();
   int oilPressureValue = readOilPressureValue();
 
   Serial.println("--------------------");

@@ -2,7 +2,7 @@
 
 const String URL = "https://uptimesensordata.000webhostapp.com/post-esp-data.php";
 
-void sendDataToMySQL(double tempValue, int soundValue, int smokeValue, double fuelLvlValue, int vibrationValue, int currentValue, int oilPressureValue)
+void sendDataToMySQL(double tempValue, int soundValue, int smokeValue, double fuelLvlValue, int vibrationValue, double currentValue, int oilPressureValue)
 {
     String postData = "temp=" + String(tempValue) + "&sound=" + String(soundValue) + "&smoke=" + String(smokeValue) + "&fuelLvl=" + String(fuelLvlValue) + "&vibration=" + String(vibrationValue) + "&current=" + String(currentValue) + "&oilPressure=" + String(oilPressureValue);
     HTTPClient http;
