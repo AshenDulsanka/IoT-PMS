@@ -8,7 +8,7 @@ const int soundSensorPin = 32;
 const int smokeSensorPin = 35;
 const int fuelLvlTrigPin = 5;
 const int fuelLvlEchoPin = 18;
-const int vibSensornPin = 39;
+const int vibSensornPin = 36;
 const int currentSensorPin = 34;
 OneWire ds(TEMP_PIN);
 
