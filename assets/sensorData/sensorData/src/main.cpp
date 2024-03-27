@@ -21,7 +21,7 @@ const char *serverName = "https://uptimesensordata.000webhostapp.com/post-esp-da
 bool signupOK = false;
 
 // Periodic restart interval (milliseconds)
-const unsigned long RESTART_INTERVAL = 15000; // Restart every 30 seconds
+const unsigned long RESTART_INTERVAL = 15000; // Restart every 15 seconds
 
 // Last restart time
 unsigned long lastRestartTime = 0;
