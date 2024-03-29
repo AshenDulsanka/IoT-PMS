@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'pages/home.dart';
 
-void main() => runApp(MaterialApp(
+void main() => runApp(const MaterialApp(
   home: LoginPage(),
 ));
 
@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Center(
         child: Container(
           height: 800,
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -60,8 +60,8 @@ class _LoginPageState extends State<LoginPage> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
-                  hintStyle: TextStyle(color: Colors.white),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                  hintStyle: const TextStyle(color: Colors.white),
                 ),
                 style: const TextStyle(color: Colors.white),
               ),
@@ -75,8 +75,8 @@ class _LoginPageState extends State<LoginPage> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
-                  hintStyle: TextStyle(color: Colors.white),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                  hintStyle: const TextStyle(color: Colors.white),
                 ),
                 style: const TextStyle(color: Colors.white),
                 obscureText: true,
