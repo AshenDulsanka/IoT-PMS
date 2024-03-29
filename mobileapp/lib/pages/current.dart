@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import './home.dart';
 
 class Current extends StatelessWidget {
   const Current({Key? key}) : super(key: key);
@@ -44,7 +43,7 @@ class Current extends StatelessWidget {
                 ),
                 SizedBox(height: 40),
                 Text(
-                  "25A",
+                  "25""A",
                   style: TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.normal,
