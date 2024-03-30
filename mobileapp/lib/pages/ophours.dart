@@ -5,12 +5,13 @@ class OpHours extends StatefulWidget {
   const OpHours({Key? key}) : super(key: key);
 
   @override
-  _VibrationState createState() => _VibrationState();
+  _OpHoursState createState() => _OpHoursState();
 }
 
-class _VibrationState extends State<OpHours> {
+class _OpHoursState extends State<OpHours> {
   final databaseRef = FirebaseDatabase.instance.ref().child('sensors');
   String _vibration = '';
+  double _operatingHours = 0;
 
   @override
   void initState() {
@@ -20,6 +21,10 @@ class _VibrationState extends State<OpHours> {
       if (data != null) {
         setState(() {
           _vibration = data['vibration'].toString();
+          double vibrationValue = double.tryParse(_vibration) ?? 0.0;
+          if (vibrationValue > 20) {
+            _operatingHours += 0.0008333333333333334;
+          }
         });
       }
     });
@@ -65,7 +70,7 @@ class _VibrationState extends State<OpHours> {
                 ),
                 SizedBox(height: 80),
                 Text(
-                  "25 hrs",
+                  "${_operatingHours.toStringAsFixed(2)} hrs",
                   style: TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.normal,
