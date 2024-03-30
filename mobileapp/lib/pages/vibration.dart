@@ -17,6 +17,21 @@ class _VibrationState extends State<Vibration> {
   @override
   void initState() {
     super.initState();
+
+    _messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    _messaging.getToken().then((token) {
+      print('Device token: $token');
+    });
+
     databaseRef.onValue.listen((event) {
       final data = event.snapshot.value as Map<dynamic, dynamic>?;
       if (data != null) {
