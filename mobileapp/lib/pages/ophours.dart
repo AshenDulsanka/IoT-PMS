@@ -1,8 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-class OpHours extends StatelessWidget {
+class OpHours extends StatefulWidget {
   const OpHours({Key? key}) : super(key: key);
+
+  @override
+  _VibrationState createState() => _VibrationState();
+}
+
+class _VibrationState extends State<OpHours> {
+  final databaseRef = FirebaseDatabase.instance.ref().child('sensors');
+  String _vibration = '';
+
+  @override
+  void initState() {
+    super.initState();
+    databaseRef.onValue.listen((event) {
+      final data = event.snapshot.value as Map<dynamic, dynamic>?;
+      if (data != null) {
+        setState(() {
+          _vibration = data['vibration'].toString();
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
