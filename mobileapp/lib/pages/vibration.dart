@@ -1,6 +1,9 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class Vibration extends StatefulWidget {
   const Vibration({Key? key}) : super(key: key);
@@ -12,6 +15,7 @@ class Vibration extends StatefulWidget {
 class _VibrationState extends State<Vibration> {
   final databaseRef = FirebaseDatabase.instance.ref().child('sensors');
   String _vibration = '';
+  String? _deviceToken;
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
 
   @override
@@ -30,22 +34,77 @@ class _VibrationState extends State<Vibration> {
 
     _messaging.getToken().then((token) {
       print('Device token: $token');
+      _deviceToken = token;
+    });
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Got a message: ${message.notification?.body}');
     });
 
     databaseRef.onValue.listen((event) {
       final data = event.snapshot.value as Map<dynamic, dynamic>?;
       if (data != null) {
+        final vibration = data['vibration'].toString();
+        _sendNotificationWithoutWidgetCheck(vibration);
         setState(() {
-          _vibration = data['vibration'].toString();
+          _vibration = vibration;
         });
       }
     });
   }
 
+  Future<void> _sendNotificationWithoutWidgetCheck(String vibration) async {
+    final vibrationValue = int.tryParse(vibration) ?? 0;
+    if (vibrationValue > 25) {
+      await _sendNotification();
+    }
+  }
+
+  Future<void> _sendNotification() async {
+    final String serverKey =
+        'AAAAMr10t2E:APA91bGIjp_V3WynamWaN0OitufgFjaGbPE5WDOcM9Vi_zGW91-oiGMkkv6vu5736vTXXfuJ1AflJr3N7PH-8qYXdJ3xbDmiBeFo83GKRE-EpYlh64Hmt7K1Vzy9hgY1Al3LdchObdR1';
+    final String? deviceToken = _deviceToken;
+
+    if (deviceToken == null) {
+      print('Device token is not available');
+      return;
+    }
+
+    final Map<String, dynamic> notificationData = {
+      'notification': {
+        'title': 'Warning!',
+        'body': 'Vibration is high, check the engine.',
+      },
+      'to': deviceToken,
+    };
+
+    final Uri url = Uri.parse('https://fcm.googleapis.com/fcm/send');
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'key=$serverKey',
+        },
+        body: jsonEncode(notificationData),
+      );
+
+      if (response.statusCode == 200) {
+        print('Notification sent successfully');
+      } else {
+        print('Failed to send notification: ${response.body}');
+      }
+    } catch (e) {
+      print('Error sending notification: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final vibrationValue = int.tryParse(_vibration) ?? 0;
-    final status = vibrationValue > 25 ? "Status: Vibration is High" : "Status: Normal";
+    final status =
+    vibrationValue > 25 ? "Status: Vibration is High" : "Status: Normal";
 
     return Scaffold(
       backgroundColor: Colors.grey[900],
@@ -60,7 +119,7 @@ class _VibrationState extends State<Vibration> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.grey[900], // Set app bar color to match background
+        backgroundColor: Colors.grey[900],
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
@@ -68,7 +127,7 @@ class _VibrationState extends State<Vibration> {
           onPressed: () {
             Navigator.pop(context);
           },
-        ),// Remove elevation
+        ),
       ),
       body: SafeArea(
         child: Center(
