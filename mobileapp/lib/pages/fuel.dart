@@ -1,11 +1,36 @@
 import 'package:flutter/material.dart';
-import './home.dart';
+import 'package:firebase_database/firebase_database.dart';
 
-class Fuel extends StatelessWidget {
+class Fuel extends StatefulWidget {
   const Fuel({Key? key}) : super(key: key);
 
   @override
+  _FuelState createState() => _FuelState();
+}
+
+class _FuelState extends State<Fuel> {
+  final databaseRef = FirebaseDatabase.instance.ref().child('sensors');
+  String _fuel = '';
+
+  @override
+  void initState() {
+    super.initState();
+    databaseRef.onValue.listen((event) {
+      final data = event.snapshot.value as Map<dynamic, dynamic>?;
+      if (data != null) {
+        setState(() {
+          final fuelLevel = data['fuel_level'] as int? ?? 0;
+          _fuel = ((fuelLevel / 25) * 100).toStringAsFixed(2);
+        });
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final fuelPercentage = double.tryParse(_fuel) ?? 0.0;
+    final status = fuelPercentage < 25.0 ? "Status: Critical" : "Status: Normal";
+
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
@@ -42,9 +67,8 @@ class Fuel extends StatelessWidget {
                   height: 200,
                   alignment: Alignment.topCenter,
                 ),
-                SizedBox(height: 40),
                 Text(
-                  "25%",
+                  _fuel + " %",
                   style: TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.normal,
@@ -54,7 +78,7 @@ class Fuel extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  "Status: Normal",
+                  status,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
