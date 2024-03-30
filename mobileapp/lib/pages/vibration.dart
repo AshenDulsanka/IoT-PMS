@@ -12,6 +12,7 @@ class Vibration extends StatefulWidget {
 class _VibrationState extends State<Vibration> {
   final databaseRef = FirebaseDatabase.instance.ref().child('sensors');
   String _vibration = '';
+  final FirebaseMessaging _messaging = FirebaseMessaging.instance;
 
   @override
   void initState() {
