@@ -27,6 +27,9 @@ class _SoundState extends State<Sound> {
 
   @override
   Widget build(BuildContext context) {
+    final soundValue = int.tryParse(_sound) ?? 0;
+    final status = soundValue > 95 ? "Status: Check Noise Level" : "Status: Normal";
+
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
@@ -65,7 +68,7 @@ class _SoundState extends State<Sound> {
                 ),
                 SizedBox(height: 60),
                 Text(
-                  "25 dB(A)",
+                  _sound + " dB",
                   style: TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.normal,
@@ -75,7 +78,7 @@ class _SoundState extends State<Sound> {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  "Status: Normal",
+                  status,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
