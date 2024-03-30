@@ -1,8 +1,29 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import './home.dart';
 
-class Current extends StatelessWidget {
+class Current extends StatefulWidget {
   const Current({Key? key}) : super(key: key);
+
+  @override
+  _CurrentState createState() => _CurrentState();
+}
+
+class _CurrentState extends State<Current> {
+  final databaseRef = FirebaseDatabase.instance.ref().child('sensors');
+  String _current = '';
+
+  @override
+  void initState() {
+    super.initState();
+    databaseRef.onValue.listen((event) {
+      final data = event.snapshot.value as Map<dynamic, dynamic>?;
+      if (data != null) {
+        setState(() {
+          _current = data['current'].toString();
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +65,7 @@ class Current extends StatelessWidget {
                 ),
                 SizedBox(height: 40),
                 Text(
-                  "25A",
+                  _current + " A", // Display the current value from Firebase
                   style: TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.normal,

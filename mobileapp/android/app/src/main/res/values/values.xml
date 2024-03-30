@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="firebase_database_url" translatable="false">https://pusl2022-uptime-default-rtdb.asia-southeast1.firebasedatabase.app/</string>
+    <string name="gcm_defaultSenderId" translatable="false">217926907745</string>
+    <string name="google_api_key" translatable="false">AIzaSyBb0bjuBKrJyziUbjGGXg_dVsGPm4FrZGE</string>
+    <string name="google_app_id" translatable="false">1:217926907745:android:426149dc3b8aee5d6ef720</string>
+    <string name="project_id" translatable="false">pusl2022-uptime</string>
+</resources>

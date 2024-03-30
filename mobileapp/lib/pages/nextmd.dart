@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import './home.dart';
 
 class NextMD extends StatelessWidget {
   const NextMD({Key? key}) : super(key: key);

@@ -1,11 +1,35 @@
 import 'package:flutter/material.dart';
-import './home.dart';
+import 'package:firebase_database/firebase_database.dart';
 
-class Gas extends StatelessWidget {
+class Gas extends StatefulWidget {
   const Gas({Key? key}) : super(key: key);
 
   @override
+  _GasState createState() => _GasState();
+}
+
+class _GasState extends State<Gas> {
+  final databaseRef = FirebaseDatabase.instance.ref().child('sensors');
+  String _gas = '';
+
+  @override
+  void initState() {
+    super.initState();
+    databaseRef.onValue.listen((event) {
+      final data = event.snapshot.value as Map<dynamic, dynamic>?;
+      if (data != null) {
+        setState(() {
+          _gas = data['smoke'].toString();
+        });
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final gasLevel = int.tryParse(_gas) ?? 0;
+    final status = gasLevel > 3000 ? "Status: Critical" : "Status: Normal";
+
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
@@ -44,7 +68,7 @@ class Gas extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  "Status: Normal",
+                  status,
                   style: TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.normal,

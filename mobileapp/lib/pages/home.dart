@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../main.dart'; // Import the login page
 import './current.dart';
 import './fuel.dart';
 import './gas.dart';
@@ -19,7 +18,7 @@ class Home extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Home",
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -34,12 +33,12 @@ class Home extends StatelessWidget {
       ),
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.only(top: 50), // Padding added to push content down
+          padding: const EdgeInsets.only(top: 50), // Padding added to push content down
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
                 child: Text(
                   "Generator Name",
                   textAlign: TextAlign.left,
@@ -50,11 +49,11 @@ class Home extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 10), // Adding space between text rows and buttons
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              const SizedBox(height: 10), // Adding space between text rows and buttons
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
                 child: Text(
-                  "Row 2",
+                  "CAT C32 (50 HZ)",
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     color: Colors.white,
@@ -63,22 +62,22 @@ class Home extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20), // Adding space between text rows and buttons
+              const SizedBox(height: 20), // Adding space between text rows and buttons
               Expanded(
                 child: Center( // Centering the last row
                   child: GridView.count(
                     crossAxisCount: 3,
                     children: [
-                      _buildButton(context, 'Coolant Temperature', 'assets/coolant_temperature.png', Temp()),
-                      _buildButton(context, 'Fuel Level', 'assets/fuel_level.png', Fuel()),
-                      _buildButton(context, 'Oil Pressure', 'assets/oil_pressure.png', OilPressure()),
-                      _buildButton(context, 'Current/Load', 'assets/current_load.png', Current()),
-                      _buildButton(context, 'Vibration', 'assets/vibration.png', Vibration()),
-                      _buildButton(context, 'Sound', 'assets/sound.png', Sound()),
-                      _buildButton(context, 'Gas', 'assets/gas.png', Gas()),
-                      _buildButton(context, 'Operating Hours', 'assets/operating_hours.png', OpHours()),
-                      _buildButton(context, 'Next MD', 'assets/next_md.png', NextMD()),
-                      _buildButton(context, 'RUL', 'assets/rul.png', Rul()),
+                      _buildButton(context, 'Coolant Temperature', 'assets/coolant_temperature.png', const Temp()),
+                      _buildButton(context, 'Fuel Level', 'assets/fuel_level.png', const Fuel()),
+                      _buildButton(context, 'Oil Pressure', 'assets/oil_pressure.png', const OilPressure()),
+                      _buildButton(context, 'Current/Load', 'assets/current_load.png', const Current()),
+                      _buildButton(context, 'Vibration', 'assets/vibration.png', const Vibration()),
+                      _buildButton(context, 'Sound', 'assets/sound.png', const Sound()),
+                      _buildButton(context, 'Gas', 'assets/gas.png', const Gas()),
+                      _buildButton(context, 'Operating Hours', 'assets/operating_hours.png', const OpHours()),
+                      _buildButton(context, 'Next MD', 'assets/next_md.png', const NextMD()),
+                      _buildButton(context, 'RUL', 'assets/rul.png', const Rul()),
                     ],
                   ),
                 ),
@@ -99,7 +98,7 @@ class Home extends StatelessWidget {
         );
       },
       child: Container(
-        margin: EdgeInsets.all(8),
+        margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: Colors.grey[700], // Change color as needed
           borderRadius: BorderRadius.circular(8), // Add border radius
@@ -112,10 +111,10 @@ class Home extends StatelessWidget {
               height: 50, // Adjust size as needed
               width: 50, // Adjust size as needed
             ),
-            SizedBox(height: 8), // Adding space between image and text
+            const SizedBox(height: 8), // Adding space between image and text
             Text(
               buttonText,
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
               textAlign: TextAlign.center,
             ),
           ],
