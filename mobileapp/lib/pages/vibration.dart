@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import './home.dart';
 
 class Vibration extends StatefulWidget {
   const Vibration({Key? key}) : super(key: key);
