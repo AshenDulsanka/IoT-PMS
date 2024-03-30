@@ -19,7 +19,8 @@ class _CurrentState extends State<Current> {
       final data = event.snapshot.value as Map<dynamic, dynamic>?;
       if (data != null) {
         setState(() {
-          _current = data['current'].toString();
+          final currentLevel = data['current'] as int? ?? 0;
+          _current = ((currentLevel / 10) * 100).toStringAsFixed(2);
         });
       }
     });
@@ -27,8 +28,16 @@ class _CurrentState extends State<Current> {
 
   @override
   Widget build(BuildContext context) {
-    final currentLevel = int.tryParse(_current) ?? 0;
-    final status = currentLevel < 25.0 ? "Status: Critical" : "Status: Normal";
+    final currentPercentage = double.tryParse(_current) ?? 0.0;
+    String status;
+
+    if (currentPercentage < 30.0) {
+      status = "Status: Warning! Very Low Current";
+    } else if (currentPercentage < 70.0) {
+      status = "Status: Load is Low";
+    } else {
+      status = "Status: Normal";
+    }
 
     return Scaffold(
       backgroundColor: Colors.grey[900],
@@ -68,7 +77,7 @@ class _CurrentState extends State<Current> {
                 ),
                 SizedBox(height: 40),
                 Text(
-                  _current + " V", // Display the current value from Firebase
+                  _current + "%", // Display the current value from Firebase
                   style: TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.normal,
@@ -78,7 +87,7 @@ class _CurrentState extends State<Current> {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  "Status: Normal",
+                  status,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
