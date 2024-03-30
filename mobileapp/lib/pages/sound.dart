@@ -1,8 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-class Sound extends StatelessWidget {
+class Sound extends StatefulWidget {
   const Sound({Key? key}) : super(key: key);
+
+  @override
+  _SoundState createState() => _SoundState();
+}
+
+class _SoundState extends State<Sound> {
+  final databaseRef = FirebaseDatabase.instance.ref().child('sensors');
+  String _sound = '';
+
+  @override
+  void initState() {
+    super.initState();
+    databaseRef.onValue.listen((event) {
+      final data = event.snapshot.value as Map<dynamic, dynamic>?;
+      if (data != null) {
+        setState(() {
+          _sound = data['sound'].toString();
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
