@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'pages/home.dart';
 
-void main() => runApp(const MaterialApp(
-  home: LoginPage(),
-));
+void main() async {
+  // Initialize Firebase
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  // Run the app
+  runApp(const MaterialApp(
+    home: LoginPage(),
+  ));
+}
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
