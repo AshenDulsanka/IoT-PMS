@@ -1,11 +1,35 @@
 import 'package:flutter/material.dart';
-import './home.dart';
+import 'package:firebase_database/firebase_database.dart';
 
-class Vibration extends StatelessWidget {
+class Vibration extends StatefulWidget {
   const Vibration({Key? key}) : super(key: key);
 
   @override
+  _VibrationState createState() => _VibrationState();
+}
+
+class _VibrationState extends State<Vibration> {
+  final databaseRef = FirebaseDatabase.instance.ref().child('sensors');
+  String _vibration = '';
+
+  @override
+  void initState() {
+    super.initState();
+    databaseRef.onValue.listen((event) {
+      final data = event.snapshot.value as Map<dynamic, dynamic>?;
+      if (data != null) {
+        setState(() {
+          _vibration = data['vibration'].toString();
+        });
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final vibrationValue = int.tryParse(_vibration) ?? 0;
+    final status = vibrationValue > 25 ? "Status: Vibration is High" : "Status: Normal";
+
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
@@ -44,7 +68,7 @@ class Vibration extends StatelessWidget {
                 ),
                 SizedBox(height: 50),
                 Text(
-                  "25 mm/s",
+                  _vibration + " mm/s",
                   style: TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.normal,
@@ -54,7 +78,7 @@ class Vibration extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  "Status: Normal",
+                  status,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,

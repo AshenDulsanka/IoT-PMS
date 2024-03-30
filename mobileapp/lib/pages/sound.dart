@@ -1,11 +1,35 @@
 import 'package:flutter/material.dart';
-import './home.dart';
+import 'package:firebase_database/firebase_database.dart';
 
-class Sound extends StatelessWidget {
+class Sound extends StatefulWidget {
   const Sound({Key? key}) : super(key: key);
 
   @override
+  _SoundState createState() => _SoundState();
+}
+
+class _SoundState extends State<Sound> {
+  final databaseRef = FirebaseDatabase.instance.ref().child('sensors');
+  String _sound = '';
+
+  @override
+  void initState() {
+    super.initState();
+    databaseRef.onValue.listen((event) {
+      final data = event.snapshot.value as Map<dynamic, dynamic>?;
+      if (data != null) {
+        setState(() {
+          _sound = data['sound'].toString();
+        });
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final soundValue = int.tryParse(_sound) ?? 0;
+    final status = soundValue > 95 ? "Status: Check Noise Level" : "Status: Normal";
+
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
@@ -44,7 +68,7 @@ class Sound extends StatelessWidget {
                 ),
                 SizedBox(height: 60),
                 Text(
-                  "25 dB(A)",
+                  _sound + " dB",
                   style: TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.normal,
@@ -54,7 +78,7 @@ class Sound extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  "Status: Normal",
+                  status,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,

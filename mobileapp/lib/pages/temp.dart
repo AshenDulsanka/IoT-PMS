@@ -1,11 +1,45 @@
 import 'package:flutter/material.dart';
-import './home.dart';
+import 'package:firebase_database/firebase_database.dart';
 
-class Temp extends StatelessWidget {
+class Temp extends StatefulWidget {
   const Temp({Key? key}) : super(key: key);
 
   @override
+  _TempState createState() => _TempState();
+}
+
+class _TempState extends State<Temp> {
+  final databaseRef = FirebaseDatabase.instance.ref().child('sensors');
+  String _temp = '';
+
+  @override
+  void initState() {
+    super.initState();
+    databaseRef.onValue.listen((event) {
+      final data = event.snapshot.value as Map<dynamic, dynamic>?;
+      if (data != null) {
+        setState(() {
+          _temp = data['temperature'].toString();
+        });
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final tempValue = double.tryParse(_temp) ?? 0.0;
+    String status;
+
+    if (tempValue < 45) {
+      status = "Status: Temperature is low";
+    } else if (tempValue < 80) {
+      status = "Status: Normal";
+    } else if (tempValue < 100) {
+      status = "Status: Temperature High";
+    } else {
+      status = "Status: Critical";
+    }
+
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
@@ -44,7 +78,7 @@ class Temp extends StatelessWidget {
                 ),
                 SizedBox(height: 60),
                 Text(
-                  "25 °C",
+                  tempValue.toStringAsFixed(1) + "°C",
                   style: TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.normal,
@@ -54,7 +88,7 @@ class Temp extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  "Status: Normal",
+                  status,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,

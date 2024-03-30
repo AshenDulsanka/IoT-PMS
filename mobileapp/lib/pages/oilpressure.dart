@@ -1,10 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
 
-class OilPressure extends StatelessWidget {
+class OilPressure extends StatefulWidget {
   const OilPressure({Key? key}) : super(key: key);
 
   @override
+  _OilPressureState createState() => _OilPressureState();
+}
+
+class _OilPressureState extends State<OilPressure> {
+  final databaseRef = FirebaseDatabase.instance.ref().child('sensors');
+  String _oilpressure = '';
+
+  @override
+  void initState() {
+    super.initState();
+    databaseRef.onValue.listen((event) {
+      final data = event.snapshot.value as Map<dynamic, dynamic>?;
+      if (data != null) {
+        setState(() {
+          _oilpressure = data['oil_pressure'].toString();
+        });
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final oilPressureLevel = int.tryParse(_oilpressure) ?? 0;
+    String status;
+
+    if (oilPressureLevel < 10) {
+      status = "Status: Critically Low";
+    } else if (oilPressureLevel < 25) {
+      status = "Status: Very Low";
+    } else if (oilPressureLevel < 65) {
+      status = "Status: Normal";
+    } else if (oilPressureLevel < 80) {
+      status = "Status: Very High";
+    } else {
+      status = "Status: Critically High";
+    }
+
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
@@ -43,7 +80,7 @@ class OilPressure extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  "25 psi",
+                  _oilpressure + " psi",
                   style: TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.normal,
@@ -53,7 +90,7 @@ class OilPressure extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  "Status: Normal",
+                  status,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
