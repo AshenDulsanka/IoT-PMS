@@ -27,6 +27,9 @@ class _CurrentState extends State<Current> {
 
   @override
   Widget build(BuildContext context) {
+    final currentLevel = int.tryParse(_current) ?? 0;
+    final status = currentLevel < 25.0 ? "Status: Critical" : "Status: Normal";
+
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
@@ -65,7 +68,7 @@ class _CurrentState extends State<Current> {
                 ),
                 SizedBox(height: 40),
                 Text(
-                  _current + " A", // Display the current value from Firebase
+                  _current + " V", // Display the current value from Firebase
                   style: TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.normal,
