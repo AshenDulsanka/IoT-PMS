@@ -44,7 +44,7 @@ class _FuelState extends State<Fuel> {
     databaseRef.onValue.listen((event) {
       final data = event.snapshot.value as Map<dynamic, dynamic>?;
       if (data != null) {
-        final fuelLevel = data['fuel_level'] as int? ?? 0;
+        final fuelLevel = data['fuel_level'] as double? ?? 0.0;
         final fuelPercentage = ((fuelLevel / 25) * 100).toStringAsFixed(2);
         _sendNotificationWithoutWidgetCheck(fuelPercentage);
         setState(() {
