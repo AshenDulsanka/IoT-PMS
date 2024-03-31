@@ -1,5 +1,9 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class OilPressure extends StatefulWidget {
   const OilPressure({Key? key}) : super(key: key);
@@ -11,18 +15,101 @@ class OilPressure extends StatefulWidget {
 class _OilPressureState extends State<OilPressure> {
   final databaseRef = FirebaseDatabase.instance.ref().child('sensors');
   String _oilpressure = '';
+  String? _deviceToken;
+  final FirebaseMessaging _messaging = FirebaseMessaging.instance;
 
   @override
   void initState() {
     super.initState();
+
+    _messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    _messaging.getToken().then((token) {
+      print('Device token: $token');
+      _deviceToken = token;
+    });
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Got a message: ${message.notification?.body}');
+    });
+
     databaseRef.onValue.listen((event) {
       final data = event.snapshot.value as Map<dynamic, dynamic>?;
       if (data != null) {
+        final oilPressure = data['oil_pressure'].toString();
+        _sendNotificationWithoutWidgetCheck(oilPressure);
         setState(() {
-          _oilpressure = data['oil_pressure'].toString();
+          _oilpressure = oilPressure;
         });
       }
     });
+  }
+
+  Future<void> _sendNotificationWithoutWidgetCheck(String oilPressure) async {
+    final oilPressureLevel = int.tryParse(oilPressure) ?? 0;
+    String notificationMessage;
+
+    if (oilPressureLevel < 10) {
+      notificationMessage = "Oil Pressure is Critically Low";
+    } else if (oilPressureLevel < 25) {
+      notificationMessage = "Oil Pressure is Very Low";
+    } else if (oilPressureLevel > 80) {
+      notificationMessage = "Oil Pressure is Critically High";
+    } else if (oilPressureLevel > 65) {
+      notificationMessage = "Oil Pressure is Very High";
+    } else {
+      return; // Oil pressure is in normal range, no notification needed
+    }
+
+    await _sendNotification(notificationMessage);
+  }
+
+  Future<void> _sendNotification(String body) async {
+    final String serverKey =
+        'AAAAMr10t2E:APA91bGIjp_V3WynamWaN0OitufgFjaGbPE5WDOcM9Vi_zGW91-oiGMkkv6vu5736vTXXfuJ1AflJr3N7PH-8qYXdJ3xbDmiBeFo83GKRE-EpYlh64Hmt7K1Vzy9hgY1Al3LdchObdR1';
+    final String? deviceToken = _deviceToken;
+
+    if (deviceToken == null) {
+      print('Device token is not available');
+      return;
+    }
+
+    final Map<String, dynamic> notificationData = {
+      'notification': {
+        'title': 'Oil Pressure Status',
+        'body': body,
+      },
+      'to': deviceToken,
+    };
+
+    final Uri url = Uri.parse('https://fcm.googleapis.com/fcm/send');
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'key=$serverKey',
+        },
+        body: jsonEncode(notificationData),
+      );
+
+      if (response.statusCode == 200) {
+        print('Notification sent successfully');
+      } else {
+        print('Failed to send notification: ${response.body}');
+      }
+    } catch (e) {
+      print('Error sending notification: $e');
+    }
   }
 
   @override
@@ -55,7 +142,7 @@ class _OilPressureState extends State<OilPressure> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.grey[900], // Set app bar color to match background
+        backgroundColor: Colors.grey[900],
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
@@ -63,7 +150,7 @@ class _OilPressureState extends State<OilPressure> {
           onPressed: () {
             Navigator.pop(context);
           },
-        ),// Remove elevation
+        ),
       ),
       body: SafeArea(
         child: Center(
