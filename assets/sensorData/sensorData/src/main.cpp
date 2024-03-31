@@ -4,7 +4,9 @@
 #include "firebase/firebase.h"
 #include "mysql/mysql.h"
 
-const int ledPin = 19;
+const int ledPin1 = 23;
+const int ledPin2 = 22;
+const int ledPin3 = 19;
 
 // Provide the token generation process info.
 #include "addons/TokenHelper.h"
@@ -30,7 +32,9 @@ void setup()
 {
   // put your setup code here, to run once:
   Serial.begin(115200);
-  pinMode(ledPin, OUTPUT); // LED
+  pinMode(ledPin1, OUTPUT); // LED
+  pinMode(ledPin2, OUTPUT); // LED
+  pinMode(ledPin3, OUTPUT); // LED
   connectToWifi();
   setupFirebase();
   setupSensors();
@@ -108,10 +112,10 @@ void loop()
 
   Serial.println("--------------------");
 
-  digitalWrite(ledPin, HIGH); // turn on the LED
-  delay(500);                 // wait for half a second or 500 milliseconds
-  digitalWrite(ledPin, LOW);  // turn off the LED
-  delay(500);                 // wait for half a second or 500 milliseconds
+  digitalWrite(ledPin1, HIGH); // turn on the LED
+  delay(500);                  // wait for half a second or 500 milliseconds
+  digitalWrite(ledPin1, LOW);  // turn off the LED
+  delay(500);                  // wait for half a second or 500 milliseconds
 
   delay(2000); // Wait for 2 seconds before sending next set of sensor values
 

@@ -57,9 +57,7 @@ class _TempState extends State<Temp> {
     final temperature = double.tryParse(tempValue) ?? 0.0;
     String notificationMessage;
 
-    if (temperature < 45) {
-      notificationMessage = "Temperature is Low";
-    } else if (temperature >= 100) {
+    if (temperature >= 100) {
       notificationMessage = "Temperature is Critical";
     } else if (temperature >= 80) {
       notificationMessage = "Temperature High";
