@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'dart:async';
 
 class OpHours extends StatefulWidget {
   const OpHours({Key? key}) : super(key: key);
@@ -12,22 +13,36 @@ class _OpHoursState extends State<OpHours> {
   final databaseRef = FirebaseDatabase.instance.ref().child('sensors');
   String _vibration = '';
   double _operatingHours = 0;
+  late StreamSubscription _databaseSubscription;
 
   @override
   void initState() {
     super.initState();
-    databaseRef.onValue.listen((event) {
+    _databaseSubscription = databaseRef.onValue.listen((event) {
       final data = event.snapshot.value as Map<dynamic, dynamic>?;
       if (data != null) {
+        final vibration = data['vibration'].toString();
+        double vibrationValue = double.tryParse(_vibration) ?? 0.0;
+        if (vibrationValue > 20) {
+          _incrementOperatingHours();
+        }
         setState(() {
-          _vibration = data['vibration'].toString();
-          double vibrationValue = double.tryParse(_vibration) ?? 0.0;
-          if (vibrationValue > 20) {
-            _operatingHours += 0.0008333333333333334;
-          }
+          _vibration = vibration;
         });
       }
     });
+  }
+
+  void _incrementOperatingHours() {
+    setState(() {
+      _operatingHours += 0.0008333333333333334;
+    });
+  }
+
+  @override
+  void dispose() {
+    _databaseSubscription.cancel(); // Cancel the database listener
+    super.dispose();
   }
 
   @override
@@ -53,7 +68,7 @@ class _OpHoursState extends State<OpHours> {
           onPressed: () {
             Navigator.pop(context);
           },
-        ),// Remove elevation
+        ), // Remove elevation
       ),
       body: SafeArea(
         child: Center(
