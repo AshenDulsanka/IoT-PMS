@@ -1,5 +1,9 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class Temp extends StatefulWidget {
   const Temp({Key? key}) : super(key: key);
@@ -11,18 +15,99 @@ class Temp extends StatefulWidget {
 class _TempState extends State<Temp> {
   final databaseRef = FirebaseDatabase.instance.ref().child('sensors');
   String _temp = '';
+  String? _deviceToken;
+  final FirebaseMessaging _messaging = FirebaseMessaging.instance;
 
   @override
   void initState() {
     super.initState();
+
+    _messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    _messaging.getToken().then((token) {
+      print('Device token: $token');
+      _deviceToken = token;
+    });
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Got a message: ${message.notification?.body}');
+    });
+
     databaseRef.onValue.listen((event) {
       final data = event.snapshot.value as Map<dynamic, dynamic>?;
       if (data != null) {
+        final tempValue = data['temperature'].toString();
+        _sendNotificationWithoutWidgetCheck(tempValue);
         setState(() {
-          _temp = data['temperature'].toString();
+          _temp = tempValue;
         });
       }
     });
+  }
+
+  Future<void> _sendNotificationWithoutWidgetCheck(String tempValue) async {
+    final temperature = double.tryParse(tempValue) ?? 0.0;
+    String notificationMessage;
+
+    if (temperature < 45) {
+      notificationMessage = "Temperature is Low";
+    } else if (temperature >= 100) {
+      notificationMessage = "Temperature is Critical";
+    } else if (temperature >= 80) {
+      notificationMessage = "Temperature High";
+    } else {
+      return; // Temperature is in normal range, no notification needed
+    }
+
+    await _sendNotification(notificationMessage);
+  }
+
+  Future<void> _sendNotification(String body) async {
+    final String serverKey =
+        'AAAAMr10t2E:APA91bGIjp_V3WynamWaN0OitufgFjaGbPE5WDOcM9Vi_zGW91-oiGMkkv6vu5736vTXXfuJ1AflJr3N7PH-8qYXdJ3xbDmiBeFo83GKRE-EpYlh64Hmt7K1Vzy9hgY1Al3LdchObdR1';
+    final String? deviceToken = _deviceToken;
+
+    if (deviceToken == null) {
+      print('Device token is not available');
+      return;
+    }
+
+    final Map<String, dynamic> notificationData = {
+      'notification': {
+        'title': 'Warning!',
+        'body': body,
+      },
+      'to': deviceToken,
+    };
+
+    final Uri url = Uri.parse('https://fcm.googleapis.com/fcm/send');
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'key=$serverKey',
+        },
+        body: jsonEncode(notificationData),
+      );
+
+      if (response.statusCode == 200) {
+        print('Notification sent successfully');
+      } else {
+        print('Failed to send notification: ${response.body}');
+      }
+    } catch (e) {
+      print('Error sending notification: $e');
+    }
   }
 
   @override
@@ -53,7 +138,7 @@ class _TempState extends State<Temp> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.grey[900], // Set app bar color to match background
+        backgroundColor: Colors.grey[900],
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
@@ -61,7 +146,7 @@ class _TempState extends State<Temp> {
           onPressed: () {
             Navigator.pop(context);
           },
-        ),// Remove elevation
+        ),
       ),
       body: SafeArea(
         child: Center(
