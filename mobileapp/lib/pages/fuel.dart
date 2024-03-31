@@ -29,7 +29,7 @@ class _FuelState extends State<Fuel> {
   @override
   Widget build(BuildContext context) {
     final fuelPercentage = double.tryParse(_fuel) ?? 0.0;
-    final status = fuelPercentage < 25.0 ? "Status: Critical" : "Status: Normal";
+    final status = fuelPercentage < 25.0 ? "Status: Fuel Level is Low" : "Status: Normal";
 
     return Scaffold(
       backgroundColor: Colors.grey[900],

@@ -26,7 +26,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -56,15 +59,5 @@ class DefaultFirebaseOptions {
     projectId: 'pusl2022-uptime',
     databaseURL: 'https://pusl2022-uptime-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'pusl2022-uptime.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDpRLwrcbOqEFZE954gPvzzbHRzY8_CMTg',
-    appId: '1:217926907745:ios:e34cb379b35759336ef720',
-    messagingSenderId: '217926907745',
-    projectId: 'pusl2022-uptime',
-    databaseURL: 'https://pusl2022-uptime-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'pusl2022-uptime.appspot.com',
-    iosBundleId: 'UpTime.com.mobileapp',
   );
 }

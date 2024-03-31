@@ -1,5 +1,9 @@
-import 'package:firebase_database/firebase_database.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class Current extends StatefulWidget {
   const Current({Key? key}) : super(key: key);
@@ -11,22 +15,106 @@ class Current extends StatefulWidget {
 class _CurrentState extends State<Current> {
   final databaseRef = FirebaseDatabase.instance.ref().child('sensors');
   String _current = '';
+  String? _deviceToken;
+  final FirebaseMessaging _messaging = FirebaseMessaging.instance;
 
   @override
   void initState() {
     super.initState();
+
+    _messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    _messaging.getToken().then((token) {
+      print('Device token: $token');
+      _deviceToken = token;
+    });
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Got a message: ${message.notification?.body}');
+    });
+
     databaseRef.onValue.listen((event) {
-      final data = event.snapshot.value as Map<dynamic, dynamic>?;
+      final data = event.snapshot.value as Map?;
       if (data != null) {
+        final currentLevel = data['current'] as int? ?? 0;
+        final currentPercentage = ((currentLevel / 10) * 100).toStringAsFixed(2);
+        _sendNotificationWithoutWidgetCheck(currentPercentage);
         setState(() {
-          _current = data['current'].toString();
+          _current = currentPercentage;
         });
       }
     });
   }
 
+  Future<void> _sendNotificationWithoutWidgetCheck(String currentPercentage) async {
+    final currentValue = double.tryParse(currentPercentage) ?? 0.0;
+    if (currentValue < 30.0) {
+      await _sendNotification("Warning! Very Low Current");
+    } else if (currentValue < 70.0) {
+      await _sendNotification("Load is Low");
+    }
+  }
+
+  Future<void> _sendNotification(String body) async {
+    final String serverKey =
+        'AAAAMr10t2E:APA91bGIjp_V3WynamWaN0OitufgFjaGbPE5WDOcM9Vi_zGW91-oiGMkkv6vu5736vTXXfuJ1AflJr3N7PH-8qYXdJ3xbDmiBeFo83GKRE-EpYlh64Hmt7K1Vzy9hgY1Al3LdchObdR1';
+    final String? deviceToken = _deviceToken;
+
+    if (deviceToken == null) {
+      print('Device token is not available');
+      return;
+    }
+
+    final Map<String, dynamic> notificationData = {
+      'notification': {
+        'title': 'Current Status',
+        'body': body,
+      },
+      'to': deviceToken,
+    };
+
+    final Uri url = Uri.parse('https://fcm.googleapis.com/fcm/send');
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'key=$serverKey',
+        },
+        body: jsonEncode(notificationData),
+      );
+
+      if (response.statusCode == 200) {
+        print('Notification sent successfully');
+      } else {
+        print('Failed to send notification: ${response.body}');
+      }
+    } catch (e) {
+      print('Error sending notification: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final currentPercentage = double.tryParse(_current) ?? 0.0;
+    String status;
+    if (currentPercentage < 30.0) {
+      status = "Status: Warning! Very Low Current";
+    } else if (currentPercentage < 70.0) {
+      status = "Status: Load is Low";
+    } else {
+      status = "Status: Normal";
+    }
+
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
@@ -40,7 +128,7 @@ class _CurrentState extends State<Current> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.grey[900], // Set app bar color to match background
+        backgroundColor: Colors.grey[900],
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
@@ -48,7 +136,7 @@ class _CurrentState extends State<Current> {
           onPressed: () {
             Navigator.pop(context);
           },
-        ),// Remove elevation
+        ),
       ),
       body: SafeArea(
         child: Center(
@@ -65,7 +153,7 @@ class _CurrentState extends State<Current> {
                 ),
                 SizedBox(height: 40),
                 Text(
-                  _current + " A", // Display the current value from Firebase
+                  _current + "%",
                   style: TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.normal,
@@ -75,7 +163,7 @@ class _CurrentState extends State<Current> {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  "Status: Normal",
+                  status,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
