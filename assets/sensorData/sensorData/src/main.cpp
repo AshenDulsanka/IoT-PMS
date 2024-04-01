@@ -5,7 +5,7 @@
 #include "mysql/mysql.h"
 
 const int ledPin1 = 23;
-const int ledPin2 = 22;
+const int ledPin2 = 23;
 const int ledPin3 = 19;
 
 // Provide the token generation process info.
@@ -58,6 +58,14 @@ void loop()
   //   connectToWifi();
   // }
 
+  // Check WiFi connection
+  if (WiFi.status() == WL_CONNECTED) {
+      digitalWrite(ledPin1, HIGH); // Turn on LED for WiFi connected
+  } else {
+      digitalWrite(ledPin1, LOW); // Turn off LED for WiFi disconnected
+      digitalWrite(ledPin3, HIGH); // Turn on ledPin3 to indicate error
+  }
+
   double tempValue = readTempValue();
   int soundValue = readSoundValue();
   int smokeValue = readSmokeValue();
@@ -67,6 +75,18 @@ void loop()
   int oilPressureValue = readOilPressureValue();
 
   Serial.println("--------------------");
+
+  // Handle LED states based on sensor readings
+  if (tempValue != -1 && soundValue != -1 && fuelLvlValue != -1 && vibrationValue != -1 && currentValue != -1 && oilPressureValue != -1)
+  {
+    digitalWrite(ledPin3, HIGH); // Turn on ledPin2 if all sensor readings are okay
+    digitalWrite(ledPin2, LOW); // Turn off ledPin3
+  }
+  else
+  {
+    digitalWrite(ledPin3, LOW); // Turn off ledPin2 if any sensor reading is invalid
+    digitalWrite(ledPin2, HIGH); // Turn on ledPin3 to indicate error
+  }
 
   // Firebase
   sendDataToFirebase(tempValue, soundValue, smokeValue, fuelLvlValue, vibrationValue, currentValue, oilPressureValue);
@@ -107,17 +127,11 @@ void loop()
     Serial.print("Error code: ");
     Serial.println(httpResponseCode);
   }
-  // Free resources
   https.end();
 
   Serial.println("--------------------");
 
-  digitalWrite(ledPin1, HIGH); // turn on the LED
-  delay(500);                  // wait for half a second or 500 milliseconds
-  digitalWrite(ledPin1, LOW);  // turn off the LED
-  delay(500);                  // wait for half a second or 500 milliseconds
-
-  delay(2000); // Wait for 2 seconds before sending next set of sensor values
+  delay(60000); // Wait for 5 seconds before sending next set of sensor values
 
   // Update last restart time
   lastRestartTime = currentTime;
