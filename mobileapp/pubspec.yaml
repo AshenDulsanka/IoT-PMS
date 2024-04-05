@@ -40,6 +40,7 @@ dependencies:
   firebase_messaging: ^14.7.21
   flutter_local_notifications: ^17.0.0
   http: ^1.2.1
+  fl_chart: ^0.67.0
 
 dev_dependencies:
   flutter_test:

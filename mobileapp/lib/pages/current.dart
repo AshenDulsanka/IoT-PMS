@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:fl_chart/fl_chart.dart';
 
 class Current extends StatefulWidget {
   const Current({Key? key}) : super(key: key);
@@ -17,6 +18,8 @@ class _CurrentState extends State<Current> {
   String _current = '';
   String? _deviceToken;
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
+  List<FlSpot> currentData = [];
+  int index = 0;
 
   @override
   void initState() {
@@ -49,6 +52,8 @@ class _CurrentState extends State<Current> {
         _sendNotificationWithoutWidgetCheck(currentPercentage);
         setState(() {
           _current = currentPercentage;
+          currentData.add(FlSpot(index.toDouble(), double.parse(currentPercentage)));
+          index++;
         });
       }
     });
@@ -151,7 +156,6 @@ class _CurrentState extends State<Current> {
                   height: 200,
                   alignment: Alignment.topCenter,
                 ),
-                SizedBox(height: 40),
                 Text(
                   _current + "%",
                   style: TextStyle(
@@ -169,6 +173,42 @@ class _CurrentState extends State<Current> {
                     fontWeight: FontWeight.normal,
                     color: Colors.white,
                     fontFamily: "Poppins",
+                  ),
+                ),
+                SizedBox(height: 70),
+                Container(
+                  height: 200,
+                  child: LineChart(
+                    LineChartData(
+                      lineBarsData: [
+                        LineChartBarData(
+                          spots: currentData,
+                          isCurved: false,
+                          color: Colors.blue,
+                          barWidth: 4,
+                          isStrokeCapRound: true,
+                          dotData: FlDotData(
+                            show: true,
+                            getDotPainter: (value, color, data, index) =>
+                                FlDotCirclePainter(
+                                  radius: 5,
+                                  color: Colors.white,
+                                ),
+                          ),
+                          belowBarData: BarAreaData(
+                            show: false,
+                            color: Colors.white.withOpacity(0.2),
+                          ),
+                        ),
+                      ],
+                      borderData: FlBorderData(
+                        show: true,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 2,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
