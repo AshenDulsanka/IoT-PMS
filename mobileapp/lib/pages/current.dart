@@ -198,6 +198,13 @@ class _CurrentState extends State<Current> {
                           ),
                         ),
                       ],
+                      borderData: FlBorderData(
+                        show: true,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 2,
+                        ),
+                      ),
                     ),
                   ),
                 ),
