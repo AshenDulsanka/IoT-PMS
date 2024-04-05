@@ -48,8 +48,8 @@ void loop()
   if (currentTime - lastRestartTime >= RESTART_INTERVAL)
   {
     Serial.println("Restarting...");
-    delay(100);    // Delay to allow serial output to complete
-    ESP.restart(); // Restart the device
+  delay(100);    // Delay to allow serial output to complete
+  ESP.restart(); // Restart the device
   }
 
   Serial.println("---------------------");
@@ -131,7 +131,7 @@ void loop()
 
   Serial.println("--------------------");
 
-  delay(60000); // Wait for 5 seconds before sending next set of sensor values
+  delay(5000); // Wait for 5 seconds before sending next set of sensor values
 
   // Update last restart time
   lastRestartTime = currentTime;
