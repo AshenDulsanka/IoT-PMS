@@ -190,6 +190,11 @@ class _CurrentState extends State<Current> {
                           isStrokeCapRound: true,
                           dotData: FlDotData(
                             show: true,
+                            getDotPainter: (value, color, data, index) =>
+                                FlDotCirclePainter(
+                                  radius: 5,
+                                  color: Colors.white,
+                                ),
                           ),
                         ),
                       ],
