@@ -156,7 +156,6 @@ class _CurrentState extends State<Current> {
                   height: 200,
                   alignment: Alignment.topCenter,
                 ),
-                SizedBox(height: 40),
                 Text(
                   _current + "%",
                   style: TextStyle(
