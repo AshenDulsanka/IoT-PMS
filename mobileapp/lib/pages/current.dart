@@ -176,6 +176,26 @@ class _CurrentState extends State<Current> {
                     fontFamily: "Poppins",
                   ),
                 ),
+                SizedBox(height: 70),
+                Container(
+                  height: 200,
+                  child: LineChart(
+                    LineChartData(
+                      lineBarsData: [
+                        LineChartBarData(
+                          spots: currentData,
+                          isCurved: true,
+                          color: Colors.blue,
+                          barWidth: 4,
+                          isStrokeCapRound: true,
+                          dotData: FlDotData(
+                            show: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

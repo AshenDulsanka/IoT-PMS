@@ -53,11 +53,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAql5cSTcRKWRTpWy2kF6OqkWsdGVVG_1A',
+    apiKey: 'AIzaSyBb0bjuBKrJyziUbjGGXg_dVsGPm4FrZGE',
     appId: '1:217926907745:android:426149dc3b8aee5d6ef720',
     messagingSenderId: '217926907745',
     projectId: 'pusl2022-uptime',
-    databaseURL: 'https://pusl2022-uptime-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL: 'https://pusl2022-uptime-default-rtdb.asia-southeast1.firebasedatabase.app/',
     storageBucket: 'pusl2022-uptime.appspot.com',
   );
 }
