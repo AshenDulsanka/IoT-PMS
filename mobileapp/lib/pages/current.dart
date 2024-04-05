@@ -184,7 +184,7 @@ class _CurrentState extends State<Current> {
                       lineBarsData: [
                         LineChartBarData(
                           spots: currentData,
-                          isCurved: true,
+                          isCurved: false,
                           color: Colors.blue,
                           barWidth: 4,
                           isStrokeCapRound: true,
@@ -195,6 +195,10 @@ class _CurrentState extends State<Current> {
                                   radius: 5,
                                   color: Colors.white,
                                 ),
+                          ),
+                          belowBarData: BarAreaData(
+                            show: false,
+                            color: Colors.white.withOpacity(0.2),
                           ),
                         ),
                       ],
