@@ -18,6 +18,8 @@ class _CurrentState extends State<Current> {
   String _current = '';
   String? _deviceToken;
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
+  List<FlSpot> currentData = [];
+  int index = 0;
 
   @override
   void initState() {
