@@ -4,7 +4,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:fl_chart/fl_chart.dart';
+import 'package:mobileapp/pricePoints.dart';
+import 'package:mobileapp/lineChart.dart';
 
 class Current extends StatefulWidget {
   const Current({Key? key}) : super(key: key);
@@ -18,8 +19,6 @@ class _CurrentState extends State<Current> {
   String _current = '';
   String? _deviceToken;
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
-  List<FlSpot> currentData = [];
-  int index = 0;
 
   @override
   void initState() {
@@ -52,12 +51,16 @@ class _CurrentState extends State<Current> {
         _sendNotificationWithoutWidgetCheck(currentPercentage);
         setState(() {
           _current = currentPercentage;
-          currentData.add(FlSpot(index.toDouble(), double.parse(currentPercentage)));
-          index++;
         });
       }
     });
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
 
   Future<void> _sendNotificationWithoutWidgetCheck(String currentPercentage) async {
     final currentValue = double.tryParse(currentPercentage) ?? 0.0;
@@ -121,23 +124,23 @@ class _CurrentState extends State<Current> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           "Current/ Load",
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.black,
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.grey[900],
+        backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          color: Colors.white,
+          color: Colors.black,
           onPressed: () {
             Navigator.pop(context);
           },
@@ -146,7 +149,7 @@ class _CurrentState extends State<Current> {
       body: SafeArea(
         child: Center(
           child: Container(
-            padding: EdgeInsets.fromLTRB(20.0, 120.0, 20.0, 0.0),
+            padding: EdgeInsets.fromLTRB(20.0, 90.0, 20.0, 0.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -161,7 +164,7 @@ class _CurrentState extends State<Current> {
                   style: TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.normal,
-                    color: Colors.white,
+                    color: Colors.black,
                     fontFamily: "Poppins",
                   ),
                 ),
@@ -171,45 +174,14 @@ class _CurrentState extends State<Current> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
-                    color: Colors.white,
+                    color: Colors.black,
                     fontFamily: "Poppins",
                   ),
                 ),
-                SizedBox(height: 70),
+                SizedBox(height: 100),
                 Container(
                   height: 200,
-                  child: LineChart(
-                    LineChartData(
-                      lineBarsData: [
-                        LineChartBarData(
-                          spots: currentData,
-                          isCurved: false,
-                          color: Colors.blue,
-                          barWidth: 4,
-                          isStrokeCapRound: true,
-                          dotData: FlDotData(
-                            show: true,
-                            getDotPainter: (value, color, data, index) =>
-                                FlDotCirclePainter(
-                                  radius: 5,
-                                  color: Colors.white,
-                                ),
-                          ),
-                          belowBarData: BarAreaData(
-                            show: false,
-                            color: Colors.white.withOpacity(0.2),
-                          ),
-                        ),
-                      ],
-                      borderData: FlBorderData(
-                        show: true,
-                        border: Border.all(
-                          color: Colors.white,
-                          width: 2,
-                        ),
-                      ),
-                    ),
-                  ),
+                  child: LineChartWidget(pricePoints),
                 ),
               ],
             ),
