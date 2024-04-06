@@ -22,7 +22,7 @@ class _CurrentState extends State<Current> {
   List<FlSpot> currentData = [];
   int index = 0;
   StreamSubscription<DatabaseEvent>? _dataStreamSubscription;
-  MySqlConnection? _mySqlConnection;
+  MySqlConnection? _mysqlConnection;
   Timer? _timer;
 
   @override
@@ -75,11 +75,61 @@ class _CurrentState extends State<Current> {
     });
   }
 
-  
-
   void _stopDataStream() {
     _dataStreamSubscription?.cancel();
     _dataStreamSubscription = null;
+  }
+
+  Future<void> _connectToMysql() async {
+    final settings = ConnectionSettings(
+      host: 'localhost',
+      user: 'id21971797_uptimesensordata',
+      password: 'UpTime@lanka234',
+      db: 'id21971797_pusl2022_uptime',
+    );
+
+    try {
+      _mysqlConnection = await MySqlConnection.connect(settings);
+    } catch (e) {
+      print('Error connecting to MySQL: $e');
+    }
+  }
+
+  void _startMysqlDataFetch() {
+    _timer = Timer.periodic(Duration(seconds: 5), (timer) {
+      _fetchMysqlData();
+    });
+  }
+
+  void _stopMysqlDataFetch() {
+    _timer?.cancel();
+    _timer = null;
+  }
+
+  void _closeMysqlConnection() {
+    _mysqlConnection?.close();
+    _mysqlConnection = null;
+  }
+
+  Future<void> _fetchMysqlData() async {
+    if (_mysqlConnection == null) return;
+
+    try {
+      final result = await _mysqlConnection!.query('SELECT current FROM sensordata ORDER BY logID DESC LIMIT 1');
+      if (result.isNotEmpty) {
+        final currentPercentage = result.first['current'] as String;
+        setState(() {
+          if (currentData.length < 10) {
+            currentData.add(FlSpot(currentData.length.toDouble(), double.parse(currentPercentage)));
+          } else {
+            currentData.removeAt(0);
+            currentData.add(FlSpot(currentData.length.toDouble(), double.parse(currentPercentage)));
+          }
+        });
+      }
+    } catch (e) {
+      print('Error fetching data from MySQL: $e');
+    }
   }
 
   Future<void> _sendNotificationWithoutWidgetCheck(String currentPercentage) async {
