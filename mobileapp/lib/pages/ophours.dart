@@ -3,7 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'dart:async';
 
 class OpHours extends StatefulWidget {
-  const OpHours({Key? key}) : super(key: key);
+  const OpHours({super.key});
 
   @override
   _OpHoursState createState() => _OpHoursState();
@@ -50,7 +50,7 @@ class _OpHoursState extends State<OpHours> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Operating Hours",
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -63,7 +63,7 @@ class _OpHoursState extends State<OpHours> {
         backgroundColor: Colors.white, // Set app bar color to match background
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           color: Colors.black,
           onPressed: () {
             Navigator.pop(context);
@@ -73,20 +73,20 @@ class _OpHoursState extends State<OpHours> {
       body: SafeArea(
         child: Center(
           child: Container(
-            padding: EdgeInsets.fromLTRB(20.0, 150.0, 20.0, 0.0),
+            padding: const EdgeInsets.fromLTRB(20.0, 150.0, 20.0, 0.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image(
+                const Image(
                   image: AssetImage("assets/operating_hours.png"),
                   width: 200,
                   height: 200,
                   alignment: Alignment.topCenter,
                 ),
-                SizedBox(height: 80),
+                const SizedBox(height: 80),
                 Text(
                   "${_operatingHours.toStringAsFixed(2)} hrs",
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.normal,
                     color: Colors.black,

@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class Gas extends StatefulWidget {
-  const Gas({Key? key}) : super(key: key);
+  const Gas({super.key});
 
   @override
   _GasState createState() => _GasState();
@@ -61,7 +61,7 @@ class _GasState extends State<Gas> {
   }
 
   Future<void> _sendNotification(String body) async {
-    final String serverKey =
+    const String serverKey =
         'AAAAMr10t2E:APA91bGIjp_V3WynamWaN0OitufgFjaGbPE5WDOcM9Vi_zGW91-oiGMkkv6vu5736vTXXfuJ1AflJr3N7PH-8qYXdJ3xbDmiBeFo83GKRE-EpYlh64Hmt7K1Vzy9hgY1Al3LdchObdR1';
     final String? deviceToken = _deviceToken;
 
@@ -108,7 +108,7 @@ class _GasState extends State<Gas> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Gas Level",
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -121,7 +121,7 @@ class _GasState extends State<Gas> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           color: Colors.black,
           onPressed: () {
             Navigator.pop(context);
@@ -131,20 +131,20 @@ class _GasState extends State<Gas> {
       body: SafeArea(
         child: Center(
           child: Container(
-            padding: EdgeInsets.fromLTRB(20.0, 190.0, 20.0, 0.0),
+            padding: const EdgeInsets.fromLTRB(20.0, 190.0, 20.0, 0.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image(
+                const Image(
                   image: AssetImage("assets/gas.png"),
                   width: 200,
                   height: 200,
                   alignment: Alignment.topCenter,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(
                   status,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.normal,
                     color: Colors.black,
