@@ -16,20 +16,21 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
           "Home",
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.black,
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.grey[900], // Set app bar color to match background
+        backgroundColor: Colors.white, // Set app bar color to match background
         elevation: 0, // Remove elevation
+        automaticallyImplyLeading: false,
       ),
       body: SafeArea(
         child: Container(
@@ -43,7 +44,7 @@ class Home extends StatelessWidget {
                   "Generator Name",
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -56,7 +57,7 @@ class Home extends StatelessWidget {
                   "CAT C32 (50 HZ)",
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
                   ),
@@ -100,7 +101,7 @@ class Home extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Colors.grey[700], // Change color as needed
+          color: Colors.grey[300], // Change color as needed
           borderRadius: BorderRadius.circular(8), // Add border radius
         ),
         child: Column(
@@ -114,7 +115,7 @@ class Home extends StatelessWidget {
             const SizedBox(height: 8), // Adding space between image and text
             Text(
               buttonText,
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.black),
               textAlign: TextAlign.center,
             ),
           ],
