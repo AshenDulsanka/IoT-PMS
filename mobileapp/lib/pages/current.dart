@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:fl_chart/fl_chart.dart';
+import 'package:mysql1/mysql1.dart';
 
 class Current extends StatefulWidget {
   const Current({Key? key}) : super(key: key);
@@ -20,6 +21,8 @@ class _CurrentState extends State<Current> {
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
   List<FlSpot> currentData = [];
   int index = 0;
+  StreamSubscription<DatabaseEvent>? _dataStreamSubscription;
+  MySqlConnection?_mySqlConnection;
 
   @override
   void initState() {
@@ -44,7 +47,17 @@ class _CurrentState extends State<Current> {
       print('Got a message: ${message.notification?.body}');
     });
 
-    databaseRef.onValue.listen((event) {
+    _startDataStream();
+  }
+
+  @override
+  void dispose() {
+    _stopDataStream();
+    super.dispose();
+  }
+
+  void _startDataStream() {
+    _dataStreamSubscription = databaseRef.onValue.listen((event) {
       final data = event.snapshot.value as Map?;
       if (data != null) {
         final currentLevel = data['current'] as int? ?? 0;
@@ -57,6 +70,11 @@ class _CurrentState extends State<Current> {
         });
       }
     });
+  }
+
+  void _stopDataStream() {
+    _dataStreamSubscription?.cancel();
+    _dataStreamSubscription = null;
   }
 
   Future<void> _sendNotificationWithoutWidgetCheck(String currentPercentage) async {
