@@ -19,7 +19,6 @@ class _CurrentState extends State<Current> {
   String? _deviceToken;
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
   List<FlSpot> currentData = [];
-  int index = 0;
   StreamSubscription<DatabaseEvent>? _dataStreamSubscription;
 
   @override
@@ -63,8 +62,6 @@ class _CurrentState extends State<Current> {
         _sendNotificationWithoutWidgetCheck(currentPercentage);
         setState(() {
           _current = currentPercentage;
-          currentData.add(FlSpot(index.toDouble(), double.parse(currentPercentage)));
-          index++;
         });
       }
     });
