@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:fl_chart/fl_chart.dart';
 
 class Current extends StatefulWidget {
-  const Current({Key? key}) : super(key: key);
+  const Current({super.key});
 
   @override
   _CurrentState createState() => _CurrentState();
@@ -85,7 +85,7 @@ class _CurrentState extends State<Current> {
   }
 
   Future<void> _sendNotification(String body) async {
-    final String serverKey =
+    const String serverKey =
         'AAAAMr10t2E:APA91bGIjp_V3WynamWaN0OitufgFjaGbPE5WDOcM9Vi_zGW91-oiGMkkv6vu5736vTXXfuJ1AflJr3N7PH-8qYXdJ3xbDmiBeFo83GKRE-EpYlh64Hmt7K1Vzy9hgY1Al3LdchObdR1';
     final String? deviceToken = _deviceToken;
 
@@ -139,7 +139,7 @@ class _CurrentState extends State<Current> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Current/ Load",
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -152,7 +152,7 @@ class _CurrentState extends State<Current> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           color: Colors.black,
           onPressed: () {
             Navigator.pop(context);
@@ -162,37 +162,37 @@ class _CurrentState extends State<Current> {
       body: SafeArea(
         child: Center(
           child: Container(
-            padding: EdgeInsets.fromLTRB(20.0, 90.0, 20.0, 0.0),
+            padding: const EdgeInsets.fromLTRB(20.0, 90.0, 20.0, 0.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image(
+                const Image(
                   image: AssetImage("assets/current_load.png"),
                   width: 200,
                   height: 200,
                   alignment: Alignment.topCenter,
                 ),
                 Text(
-                  _current + "%",
-                  style: TextStyle(
+                  "$_current%",
+                  style: const TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.normal,
                     color: Colors.black,
                     fontFamily: "Poppins",
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text(
                   status,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
                     color: Colors.black,
                     fontFamily: "Poppins",
                   ),
                 ),
-                SizedBox(height: 100),
-                Container(
+                const SizedBox(height: 100),
+                SizedBox(
                   height: 200,
                   child: LineChart(
                     LineChartData(
