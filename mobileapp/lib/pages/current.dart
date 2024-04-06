@@ -5,7 +5,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:fl_chart/fl_chart.dart';
-import 'package:mysql1/mysql1.dart';
 
 class Current extends StatefulWidget {
   const Current({Key? key}) : super(key: key);
@@ -22,8 +21,6 @@ class _CurrentState extends State<Current> {
   List<FlSpot> currentData = [];
   int index = 0;
   StreamSubscription<DatabaseEvent>? _dataStreamSubscription;
-  MySqlConnection? _mysqlConnection;
-  Timer? _timer;
 
   @override
   void initState() {
@@ -49,15 +46,11 @@ class _CurrentState extends State<Current> {
     });
 
     _startDataStream();
-    _connectToMysql();
-    _startMysqlDataFetch();
   }
 
   @override
   void dispose() {
     _stopDataStream();
-    _stopMysqlDataFetch();
-    _closeMysqlConnection();
     super.dispose();
   }
 
@@ -70,6 +63,8 @@ class _CurrentState extends State<Current> {
         _sendNotificationWithoutWidgetCheck(currentPercentage);
         setState(() {
           _current = currentPercentage;
+          currentData.add(FlSpot(index.toDouble(), double.parse(currentPercentage)));
+          index++;
         });
       }
     });
@@ -78,58 +73,6 @@ class _CurrentState extends State<Current> {
   void _stopDataStream() {
     _dataStreamSubscription?.cancel();
     _dataStreamSubscription = null;
-  }
-
-  Future<void> _connectToMysql() async {
-    final settings = ConnectionSettings(
-      host: 'localhost',
-      user: 'id21971797_uptimesensordata',
-      password: 'UpTime@lanka234',
-      db: 'id21971797_pusl2022_uptime',
-    );
-
-    try {
-      _mysqlConnection = await MySqlConnection.connect(settings);
-    } catch (e) {
-      print('Error connecting to MySQL: $e');
-    }
-  }
-
-  void _startMysqlDataFetch() {
-    _timer = Timer.periodic(Duration(seconds: 5), (timer) {
-      _fetchMysqlData();
-    });
-  }
-
-  void _stopMysqlDataFetch() {
-    _timer?.cancel();
-    _timer = null;
-  }
-
-  void _closeMysqlConnection() {
-    _mysqlConnection?.close();
-    _mysqlConnection = null;
-  }
-
-  Future<void> _fetchMysqlData() async {
-    if (_mysqlConnection == null) return;
-
-    try {
-      final result = await _mysqlConnection!.query('SELECT current FROM sensordata ORDER BY logID DESC LIMIT 1');
-      if (result.isNotEmpty) {
-        final currentPercentage = result.first['current'] as String;
-        setState(() {
-          if (currentData.length < 10) {
-            currentData.add(FlSpot(currentData.length.toDouble(), double.parse(currentPercentage)));
-          } else {
-            currentData.removeAt(0);
-            currentData.add(FlSpot(currentData.length.toDouble(), double.parse(currentPercentage)));
-          }
-        });
-      }
-    } catch (e) {
-      print('Error fetching data from MySQL: $e');
-    }
   }
 
   Future<void> _sendNotificationWithoutWidgetCheck(String currentPercentage) async {
@@ -194,23 +137,23 @@ class _CurrentState extends State<Current> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           "Current/ Load",
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.black,
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.grey[900],
+        backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          color: Colors.white,
+          color: Colors.black,
           onPressed: () {
             Navigator.pop(context);
           },
@@ -219,7 +162,7 @@ class _CurrentState extends State<Current> {
       body: SafeArea(
         child: Center(
           child: Container(
-            padding: EdgeInsets.fromLTRB(20.0, 120.0, 20.0, 0.0),
+            padding: EdgeInsets.fromLTRB(20.0, 90.0, 20.0, 0.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -234,7 +177,7 @@ class _CurrentState extends State<Current> {
                   style: TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.normal,
-                    color: Colors.white,
+                    color: Colors.black,
                     fontFamily: "Poppins",
                   ),
                 ),
@@ -244,11 +187,11 @@ class _CurrentState extends State<Current> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
-                    color: Colors.white,
+                    color: Colors.black,
                     fontFamily: "Poppins",
                   ),
                 ),
-                SizedBox(height: 70),
+                SizedBox(height: 100),
                 Container(
                   height: 200,
                   child: LineChart(
@@ -265,19 +208,19 @@ class _CurrentState extends State<Current> {
                             getDotPainter: (value, color, data, index) =>
                                 FlDotCirclePainter(
                                   radius: 5,
-                                  color: Colors.white,
+                                  color: Colors.black,
                                 ),
                           ),
                           belowBarData: BarAreaData(
                             show: false,
-                            color: Colors.white.withOpacity(0.2),
+                            color: Colors.black.withOpacity(0.2),
                           ),
                         ),
                       ],
                       borderData: FlBorderData(
                         show: true,
                         border: Border.all(
-                          color: Colors.white,
+                          color: Colors.black,
                           width: 2,
                         ),
                       ),
