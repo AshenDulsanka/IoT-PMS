@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class Temp extends StatefulWidget {
-  const Temp({Key? key}) : super(key: key);
+  const Temp({super.key});
 
   @override
   _TempState createState() => _TempState();
@@ -69,7 +69,7 @@ class _TempState extends State<Temp> {
   }
 
   Future<void> _sendNotification(String body) async {
-    final String serverKey =
+    const String serverKey =
         'AAAAMr10t2E:APA91bGIjp_V3WynamWaN0OitufgFjaGbPE5WDOcM9Vi_zGW91-oiGMkkv6vu5736vTXXfuJ1AflJr3N7PH-8qYXdJ3xbDmiBeFo83GKRE-EpYlh64Hmt7K1Vzy9hgY1Al3LdchObdR1';
     final String? deviceToken = _deviceToken;
 
@@ -126,7 +126,7 @@ class _TempState extends State<Temp> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Coolant Temperature",
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -139,7 +139,7 @@ class _TempState extends State<Temp> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           color: Colors.black,
           onPressed: () {
             Navigator.pop(context);
@@ -149,30 +149,30 @@ class _TempState extends State<Temp> {
       body: SafeArea(
         child: Center(
           child: Container(
-            padding: EdgeInsets.fromLTRB(20.0, 150.0, 20.0, 0.0),
+            padding: const EdgeInsets.fromLTRB(20.0, 150.0, 20.0, 0.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image(
+                const Image(
                   image: AssetImage("assets/coolant_temperature.png"),
                   width: 200,
                   height: 200,
                   alignment: Alignment.topCenter,
                 ),
-                SizedBox(height: 60),
+                const SizedBox(height: 60),
                 Text(
-                  tempValue.toStringAsFixed(1) + "°C",
-                  style: TextStyle(
+                  "${tempValue.toStringAsFixed(1)}°C",
+                  style: const TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.normal,
                     color: Colors.black,
                     fontFamily: "Poppins",
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text(
                   status,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
                     color: Colors.black,
