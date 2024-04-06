@@ -107,23 +107,23 @@ class _VibrationState extends State<Vibration> {
     vibrationValue > 25 ? "Status: Vibration is High" : "Status: Normal";
 
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           "Vibration Level",
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.black,
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.grey[900],
+        backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          color: Colors.white,
+          color: Colors.black,
           onPressed: () {
             Navigator.pop(context);
           },
@@ -148,7 +148,7 @@ class _VibrationState extends State<Vibration> {
                   style: TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.normal,
-                    color: Colors.white,
+                    color: Colors.black,
                     fontFamily: "Poppins",
                   ),
                 ),
@@ -158,7 +158,7 @@ class _VibrationState extends State<Vibration> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
-                    color: Colors.white,
+                    color: Colors.black,
                     fontFamily: "Poppins",
                   ),
                 ),

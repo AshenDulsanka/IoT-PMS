@@ -106,23 +106,23 @@ class _SoundState extends State<Sound> {
     final status = soundValue > 95 ? "Status: Check Noise Level" : "Status: Normal";
 
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           "Sound Level",
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.black,
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.grey[900],
+        backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          color: Colors.white,
+          color: Colors.black,
           onPressed: () {
             Navigator.pop(context);
           },
@@ -147,7 +147,7 @@ class _SoundState extends State<Sound> {
                   style: TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.normal,
-                    color: Colors.white,
+                    color: Colors.black,
                     fontFamily: "Poppins",
                   ),
                 ),
@@ -157,7 +157,7 @@ class _SoundState extends State<Sound> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
-                    color: Colors.white,
+                    color: Colors.black,
                     fontFamily: "Poppins",
                   ),
                 ),
