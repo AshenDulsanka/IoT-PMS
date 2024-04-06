@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:mobileapp/pricePoints.dart';
+import 'package:flutter/material.dart';
 
 class LineChartWidget extends StatelessWidget {
   final List<PricePoint> points;
