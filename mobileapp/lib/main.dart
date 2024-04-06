@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Colors.white,
       body: Center(
         child: Container(
           height: 800,
@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: Colors.black,
                   fontFamily: "Poppins",
                 ),
               ),
@@ -68,30 +68,30 @@ class _LoginPageState extends State<LoginPage> {
                 controller: _emailController,
                 decoration: InputDecoration(
                   hintText: 'Email',
-                  fillColor: Colors.grey[600],
+                  fillColor: Colors.grey[300],
                   filled: true,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
-                  hintStyle: const TextStyle(color: Colors.white),
+                  hintStyle: const TextStyle(color: Colors.black),
                 ),
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.black),
               ),
               const SizedBox(height: 40),
               TextField(
                 controller: _passwordController,
                 decoration: InputDecoration(
                   hintText: 'Password',
-                  fillColor: Colors.grey[600],
+                  fillColor: Colors.grey[300],
                   filled: true,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
-                  hintStyle: const TextStyle(color: Colors.white),
+                  hintStyle: const TextStyle(color: Colors.black),
                 ),
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.black),
                 obscureText: true,
               ),
               const SizedBox(height: 10),
@@ -128,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                   'Login',
                   style: TextStyle(
                     fontSize: 20,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                 ),
               ),
