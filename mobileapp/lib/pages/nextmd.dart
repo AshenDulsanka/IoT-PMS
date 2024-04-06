@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class NextMD extends StatelessWidget {
-  const NextMD({Key? key}) : super(key: key);
+  const NextMD({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Next Maintenance Date",
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -21,7 +21,7 @@ class NextMD extends StatelessWidget {
         backgroundColor: Colors.white, // Set app bar color to match background
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           color: Colors.black,
           onPressed: () {
             Navigator.pop(context);
@@ -31,8 +31,8 @@ class NextMD extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Container(
-            padding: EdgeInsets.fromLTRB(20.0, 150.0, 20.0, 0.0),
-            child: Column(
+            padding: const EdgeInsets.fromLTRB(20.0, 150.0, 20.0, 0.0),
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Image(
