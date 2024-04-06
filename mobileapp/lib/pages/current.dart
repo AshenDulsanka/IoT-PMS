@@ -22,7 +22,8 @@ class _CurrentState extends State<Current> {
   List<FlSpot> currentData = [];
   int index = 0;
   StreamSubscription<DatabaseEvent>? _dataStreamSubscription;
-  MySqlConnection?_mySqlConnection;
+  MySqlConnection? _mySqlConnection;
+  Timer? _timer;
 
   @override
   void initState() {
@@ -48,11 +49,15 @@ class _CurrentState extends State<Current> {
     });
 
     _startDataStream();
+    _connectToMysql();
+    _startMysqlDataFetch();
   }
 
   @override
   void dispose() {
     _stopDataStream();
+    _stopMysqlDataFetch();
+    _closeMysqlConnection();
     super.dispose();
   }
 
@@ -65,12 +70,12 @@ class _CurrentState extends State<Current> {
         _sendNotificationWithoutWidgetCheck(currentPercentage);
         setState(() {
           _current = currentPercentage;
-          currentData.add(FlSpot(index.toDouble(), double.parse(currentPercentage)));
-          index++;
         });
       }
     });
   }
+
+  
 
   void _stopDataStream() {
     _dataStreamSubscription?.cancel();
