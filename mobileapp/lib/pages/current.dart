@@ -4,8 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:mobileapp/pricePoints.dart';
-import 'package:mobileapp/lineChart.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 class Current extends StatefulWidget {
   const Current({Key? key}) : super(key: key);
@@ -19,6 +18,9 @@ class _CurrentState extends State<Current> {
   String _current = '';
   String? _deviceToken;
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
+  List<FlSpot> currentData = [];
+  int index = 0;
+  StreamSubscription<DatabaseEvent>? _dataStreamSubscription;
 
   @override
   void initState() {
@@ -43,7 +45,17 @@ class _CurrentState extends State<Current> {
       print('Got a message: ${message.notification?.body}');
     });
 
-    databaseRef.onValue.listen((event) {
+    _startDataStream();
+  }
+
+  @override
+  void dispose() {
+    _stopDataStream();
+    super.dispose();
+  }
+
+  void _startDataStream() {
+    _dataStreamSubscription = databaseRef.onValue.listen((event) {
       final data = event.snapshot.value as Map?;
       if (data != null) {
         final currentLevel = data['current'] as int? ?? 0;
@@ -51,16 +63,17 @@ class _CurrentState extends State<Current> {
         _sendNotificationWithoutWidgetCheck(currentPercentage);
         setState(() {
           _current = currentPercentage;
+          currentData.add(FlSpot(index.toDouble(), double.parse(currentPercentage)));
+          index++;
         });
       }
     });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
+  void _stopDataStream() {
+    _dataStreamSubscription?.cancel();
+    _dataStreamSubscription = null;
   }
-
 
   Future<void> _sendNotificationWithoutWidgetCheck(String currentPercentage) async {
     final currentValue = double.tryParse(currentPercentage) ?? 0.0;
@@ -181,7 +194,38 @@ class _CurrentState extends State<Current> {
                 SizedBox(height: 100),
                 Container(
                   height: 200,
-                  child: LineChartWidget(pricePoints),
+                  child: LineChart(
+                    LineChartData(
+                      lineBarsData: [
+                        LineChartBarData(
+                          spots: currentData,
+                          isCurved: false,
+                          color: Colors.blue,
+                          barWidth: 4,
+                          isStrokeCapRound: true,
+                          dotData: FlDotData(
+                            show: true,
+                            getDotPainter: (value, color, data, index) =>
+                                FlDotCirclePainter(
+                                  radius: 5,
+                                  color: Colors.black,
+                                ),
+                          ),
+                          belowBarData: BarAreaData(
+                            show: false,
+                            color: Colors.black.withOpacity(0.2),
+                          ),
+                        ),
+                      ],
+                      borderData: FlBorderData(
+                        show: true,
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 2,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
