@@ -8,7 +8,7 @@ class HourFuelData {
   HourFuelData({required this.x, required this.y});
 }
 
-Future<List<HourFuelData>> getPricePoints() async {
+Future<List<HourFuelData>> get1HourFuelData() async {
   final url = Uri.parse('https://uptimesensordata.000webhostapp.com/fuel-1hour-data.php');
   final response = await http.get(url);
 
