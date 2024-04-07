@@ -35,7 +35,7 @@ class NextMaintenanceDateManager {
     }
 
     if (isAbnormal) {
-      _nextMaintenanceDays -= 100;
+      _nextMaintenanceDays -= 40;
       if (_nextMaintenanceDays < 0) {
         _nextMaintenanceDays = 0;
       }
