@@ -194,6 +194,15 @@ class _CurrentState extends State<Current> {
                   ),
                 ),
                 const SizedBox(height: 100),
+                Text(
+                  "1 Hour Data",
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontFamily: "Poppins",
+                  ),
+                ),
                 FutureBuilder<List<PricePoint>>(
                   future: getPricePoints(),
                   builder: (context, snapshot) {
