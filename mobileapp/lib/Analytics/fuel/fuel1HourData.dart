@@ -9,7 +9,7 @@ class PricePoint {
 }
 
 Future<List<PricePoint>> getPricePoints() async {
-  final url = Uri.parse('https://uptimesensordata.000webhostapp.com/current-data.php');
+  final url = Uri.parse('https://uptimesensordata.000webhostapp.com/fuel-1hour-data.php');
   final response = await http.get(url);
 
   if (response.statusCode == 200) {

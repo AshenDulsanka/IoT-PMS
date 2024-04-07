@@ -9,7 +9,7 @@ class DayFuelData {
 }
 
 Future<List<DayFuelData>> get1DayCurrentData() async {
-  final url = Uri.parse('https://uptimesensordata.000webhostapp.com/current-1day-data.php');
+  final url = Uri.parse('https://uptimesensordata.000webhostapp.com/fuel-1day-data.php');
   final response = await http.get(url);
 
   if (response.statusCode == 200) {
