@@ -11,6 +11,8 @@ import 'package:mobileapp/Analytics/vibration/10DaysLineChart.dart';
 import 'package:mobileapp/Analytics/vibration/1DayLineChart.dart';
 import 'package:mobileapp/Analytics/vibration/1HourLineChart.dart';
 
+import 'next_maintenance_date.dart';
+
 class Vibration extends StatefulWidget {
   const Vibration({super.key});
 
@@ -56,6 +58,9 @@ class _VibrationState extends State<Vibration> {
           _vibration = vibration;
         });
       }
+      NextMaintenanceDateManager.updateNextMaintenanceDate({
+        'vibrationValue': double.parse(_vibration),
+      });
     });
   }
 

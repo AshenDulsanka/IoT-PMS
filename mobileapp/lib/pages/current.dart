@@ -6,11 +6,13 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:mobileapp/Analytics/current/lineChart.dart';
+import 'package:mobileapp/pages/next_maintenance_date.dart';
 import '../Analytics/current/10DaysLineChart.dart';
 import '../Analytics/current/1DayLineChart.dart';
 import '../Analytics/current/current10DaysData.dart';
 import '../Analytics/current/current1DayData.dart';
 import '../Analytics/current/current1HourData.dart';
+import 'next_maintenance_date.dart';
 
 class Current extends StatefulWidget {
   const Current({super.key});
@@ -45,6 +47,7 @@ class _CurrentState extends State<Current> {
     _messaging.getToken().then((token) {
       print('Device token: $token');
       _deviceToken = token;
+      NextMaintenanceDateManager.setDeviceToken(token);
     });
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -52,6 +55,10 @@ class _CurrentState extends State<Current> {
     });
 
     _startDataStream();
+
+    NextMaintenanceDateManager.updateNextMaintenanceDate({
+      'currentValue': double.tryParse(_current) ?? 0.0,
+    });
   }
 
   @override

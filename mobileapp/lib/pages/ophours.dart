@@ -35,7 +35,7 @@ class _OpHoursState extends State<OpHours> {
 
   void _incrementOperatingHours() {
     setState(() {
-      _operatingHours += 0.0008333333333333334;
+      _operatingHours += 0.01;
     });
   }
 

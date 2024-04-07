@@ -11,6 +11,8 @@ import 'package:mobileapp/Analytics/sound/sound1HourData.dart';
 import 'package:mobileapp/Analytics/sound/sound10DaysData.dart';
 import 'package:mobileapp/Analytics/sound/10DaysLineChart.dart';
 
+import 'next_maintenance_date.dart';
+
 class Sound extends StatefulWidget {
   const Sound({super.key});
 
@@ -56,6 +58,9 @@ class _SoundState extends State<Sound> {
           _sound = soundValue;
         });
       }
+      NextMaintenanceDateManager.updateNextMaintenanceDate({
+        'soundValue': double.parse(_sound),
+      });
     });
   }
 
