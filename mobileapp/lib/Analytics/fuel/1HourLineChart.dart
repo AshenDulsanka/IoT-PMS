@@ -2,11 +2,11 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/foundation/key.dart';
-import 'package:mobileapp/Analytics/current/current1HourData.dart';
+import 'package:mobileapp/Analytics/fuel/fuel1HourData.dart';
 import 'package:flutter/material.dart';
 
 class LineChartWidget extends StatelessWidget {
-  final List<PricePoint> points;
+  final List<HourFuelData> points;
 
   const LineChartWidget(this.points, {Key? key}) : super(key: key);
 
