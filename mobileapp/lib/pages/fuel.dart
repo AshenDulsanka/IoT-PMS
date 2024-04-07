@@ -4,7 +4,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:fl_chart/fl_chart.dart';
 import 'package:mobileapp/Analytics/fuel/10DaysLineChart.dart';
 import 'package:mobileapp/Analytics/fuel/1DayLineChart.dart';
 import 'package:mobileapp/Analytics/fuel/1HourLineChart.dart';

@@ -4,6 +4,12 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:mobileapp/Analytics/temp/temp1HourData.dart';
+import 'package:mobileapp/Analytics/temp/temp10DaysData.dart';
+import 'package:mobileapp/Analytics/temp/1HourLineChart.dart';
+import 'package:mobileapp/Analytics/temp/1DayLineChart.dart';
+import 'package:mobileapp/Analytics/temp/10DaysLineChart.dart';
+import 'package:mobileapp/Analytics/temp/temp1DayData.dart';
 
 class Temp extends StatefulWidget {
   const Temp({super.key});
@@ -147,39 +153,116 @@ class _TempState extends State<Temp> {
         ),
       ),
       body: SafeArea(
-        child: Center(
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(20.0, 150.0, 20.0, 0.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const Image(
-                  image: AssetImage("assets/coolant_temperature.png"),
-                  width: 200,
-                  height: 200,
-                  alignment: Alignment.topCenter,
-                ),
-                const SizedBox(height: 60),
-                Text(
-                  "${tempValue.toStringAsFixed(1)}°C",
-                  style: const TextStyle(
-                    fontSize: 50,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black,
-                    fontFamily: "Poppins",
+        child: SingleChildScrollView(
+          child: Center(
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(20.0, 150.0, 20.0, 100.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Image(
+                    image: AssetImage("assets/coolant_temperature.png"),
+                    width: 200,
+                    height: 200,
+                    alignment: Alignment.topCenter,
                   ),
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  status,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black,
-                    fontFamily: "Poppins",
+                  const SizedBox(height: 60),
+                  Text(
+                    "${tempValue.toStringAsFixed(1)}°C",
+                    style: const TextStyle(
+                      fontSize: 50,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.black,
+                      fontFamily: "Poppins",
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 20),
+                  Text(
+                    status,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.black,
+                      fontFamily: "Poppins",
+                    ),
+                  ),
+                  const SizedBox(height: 100),
+                  const Text(
+                    "1 Hour Data",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontFamily: "Poppins",
+                    ),
+                  ),
+                  FutureBuilder<List<HourTempData>>(
+                    future: get1HourTempData(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return SizedBox(
+                          height: 200,
+                          child: LineChartWidget(snapshot.data!),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 50),
+                  const Text(
+                    "1 Day Data",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontFamily: "Poppins",
+                    ),
+                  ),
+                  FutureBuilder<List<DayTempData>>(
+                    future: get1DayTempData(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return SizedBox(
+                          height: 200,
+                          child: LineChartWidget1Day(snapshot.data!),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 50),
+                  const Text(
+                    "10 Days Data",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontFamily: "Poppins",
+                    ),
+                  ),
+                  FutureBuilder<List<Days10TempData>>(
+                    future: get10DaysTempData(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return SizedBox(
+                          height: 200,
+                          child: LineChartWidget10Days(snapshot.data!),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

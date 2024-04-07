@@ -4,6 +4,12 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:mobileapp/Analytics/gas/1DayLineChart.dart';
+import 'package:mobileapp/Analytics/gas/1HourLineChart.dart';
+import 'package:mobileapp/Analytics/gas/gas1DayData.dart';
+import 'package:mobileapp/Analytics/gas/gas1HourData.dart';
+import 'package:mobileapp/Analytics/gas/gas10DaysData.dart';
+import 'package:mobileapp/Analytics/gas/10DaysLineChart.dart';
 
 class Gas extends StatefulWidget {
   const Gas({super.key});
@@ -129,29 +135,106 @@ class _GasState extends State<Gas> {
         ),
       ),
       body: SafeArea(
-        child: Center(
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(20.0, 190.0, 20.0, 0.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const Image(
-                  image: AssetImage("assets/gas.png"),
-                  width: 200,
-                  height: 200,
-                  alignment: Alignment.topCenter,
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  status,
-                  style: const TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black,
-                    fontFamily: "Poppins",
+        child: SingleChildScrollView(
+          child: Center(
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(20.0, 190.0, 20.0, 100.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Image(
+                    image: AssetImage("assets/gas.png"),
+                    width: 200,
+                    height: 200,
+                    alignment: Alignment.topCenter,
                   ),
-                ),
-              ],
+                  const SizedBox(height: 10),
+                  Text(
+                    status,
+                    style: const TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.black,
+                      fontFamily: "Poppins",
+                    ),
+                  ),
+                  const SizedBox(height: 100),
+                  const Text(
+                    "1 Hour Data",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontFamily: "Poppins",
+                    ),
+                  ),
+                  FutureBuilder<List<HourGasData>>(
+                    future: get1HourGasData(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return SizedBox(
+                          height: 200,
+                          child: LineChartWidget(snapshot.data!),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 50),
+                  const Text(
+                    "1 Day Data",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontFamily: "Poppins",
+                    ),
+                  ),
+                  FutureBuilder<List<DayGasData>>(
+                    future: get1DayGasData(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return SizedBox(
+                          height: 200,
+                          child: LineChartWidget1Day(snapshot.data!),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 50),
+                  const Text(
+                    "10 Days Data",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontFamily: "Poppins",
+                    ),
+                  ),
+                  FutureBuilder<List<Days10GasData>>(
+                    future: get10DaysGasData(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return SizedBox(
+                          height: 200,
+                          child: LineChartWidget10Days(snapshot.data!),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
