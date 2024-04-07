@@ -6,7 +6,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:mobileapp/Analytics/current/lineChart.dart';
+import '../Analytics/current/10DaysLineChart.dart';
 import '../Analytics/current/1DayLineChart.dart';
+import '../Analytics/current/current10DaysData.dart';
 import '../Analytics/current/current1DayData.dart';
 import '../Analytics/current/current1HourData.dart';
 
@@ -221,7 +223,7 @@ class _CurrentState extends State<Current> {
                       }
                     },
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 50),
                   const Text(
                     "1 Day Data",
                     style: TextStyle(
@@ -238,6 +240,31 @@ class _CurrentState extends State<Current> {
                         return SizedBox(
                           height: 200,
                           child: LineChartWidget1Day(snapshot.data!),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 50),
+                  const Text(
+                    "10 Days Data",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontFamily: "Poppins",
+                    ),
+                  ),
+                  FutureBuilder<List<Days10CurrentData>>(
+                    future: get10DaysCurrentData(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return SizedBox(
+                          height: 200,
+                          child: LineChartWidget10Days(snapshot.data!),
                         );
                       } else if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error}');
