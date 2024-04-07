@@ -167,7 +167,7 @@ class _CurrentState extends State<Current> {
         child: SingleChildScrollView(
           child: Center(
             child: Container(
-              padding: const EdgeInsets.fromLTRB(20.0, 90.0, 20.0, 0.0),
+              padding: const EdgeInsets.fromLTRB(20.0, 90.0, 20.0, 100.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
