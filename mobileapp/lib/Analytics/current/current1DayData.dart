@@ -8,7 +8,7 @@ class PricePoint {
   PricePoint({required this.x, required this.y});
 }
 
-Future<List<PricePoint>> getPricePoints() async {
+Future<List<PricePoint>> get1DayCurrentData() async {
   final url = Uri.parse('https://uptimesensordata.000webhostapp.com/current-1day-data.php');
   final response = await http.get(url);
 
