@@ -2,7 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/foundation/key.dart';
-import 'package:mobileapp/pricePoints.dart';
+import 'package:mobileapp/Analytics/current/pricePoints.dart';
 import 'package:flutter/material.dart';
 
 class LineChartWidget extends StatelessWidget {

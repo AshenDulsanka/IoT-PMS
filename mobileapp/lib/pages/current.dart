@@ -5,8 +5,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:fl_chart/fl_chart.dart';
-import 'package:mobileapp/lineChart.dart';
-import '../pricePoints.dart';
+import 'package:mobileapp/Analytics/current/lineChart.dart';
+import '../Analytics/current/pricePoints.dart';
 
 class Current extends StatefulWidget {
   const Current({super.key});
