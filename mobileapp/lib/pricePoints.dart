@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:collection/collection.dart';
+import 'package:http/http.dart' as http;
 
 class PricePoint {
   final double x;
@@ -7,10 +9,14 @@ class PricePoint {
   PricePoint({required this.x, required this.y});
 }
 
-List<PricePoint> get pricePoints {
-  final data = <double>[2,4,6,11,3,5,3];
-  return data
-      .mapIndexed(
-        ((index, element) => PricePoint(x: index.toDouble(), y: element)))
-      .toList();
+Future<List<PricePoint>> getPricePoints() async {
+  final url = Uri.parse('https://uptimesensordata.000webhostapp.com/current-data.php');
+  final response = await http.get(url);
+
+  if (response.statusCode == 200) {
+    final data = jsonDecode(response.body) as List;
+    return data.asMap().entries.map((entry) => PricePoint(x: entry.key.toDouble(), y: double.parse(entry.value.toString()))).toList();
+  } else {
+    throw Exception('Failed to fetch data from the PHP script');
+  }
 }
