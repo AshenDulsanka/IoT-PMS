@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:async';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 class OpHours extends StatefulWidget {
   const OpHours({super.key});
@@ -14,6 +15,10 @@ class _OpHoursState extends State<OpHours> {
   String _vibration = '';
   double _operatingHours = 0;
   late StreamSubscription _databaseSubscription;
+
+  Future<void> _handleRefresh() async {
+    await Future.delayed(const Duration(seconds: 1));
+  }
 
   @override
   void initState() {
@@ -70,30 +75,33 @@ class _OpHoursState extends State<OpHours> {
           },
         ), // Remove elevation
       ),
-      body: SafeArea(
-        child: Center(
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(20.0, 150.0, 20.0, 0.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const Image(
-                  image: AssetImage("assets/operating_hours.png"),
-                  width: 200,
-                  height: 200,
-                  alignment: Alignment.topCenter,
-                ),
-                const SizedBox(height: 80),
-                Text(
-                  "${_operatingHours.toStringAsFixed(2)} hrs",
-                  style: const TextStyle(
-                    fontSize: 50,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black,
-                    fontFamily: "Poppins",
+      body: LiquidPullToRefresh(
+        onRefresh: _handleRefresh,
+        child: SafeArea(
+          child: Center(
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(20.0, 150.0, 20.0, 0.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Image(
+                    image: AssetImage("assets/operating_hours.png"),
+                    width: 200,
+                    height: 200,
+                    alignment: Alignment.topCenter,
                   ),
-                ),
-              ],
+                  const SizedBox(height: 80),
+                  Text(
+                    "${_operatingHours.toStringAsFixed(2)} hrs",
+                    style: const TextStyle(
+                      fontSize: 50,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.black,
+                      fontFamily: "Poppins",
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
