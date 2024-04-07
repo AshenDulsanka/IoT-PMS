@@ -169,6 +169,81 @@ class _FuelState extends State<Fuel> {
                       fontFamily: "Poppins",
                     ),
                   ),
+                  const SizedBox(height: 100),
+                  const Text(
+                    "1 Hour Data",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontFamily: "Poppins",
+                    ),
+                  ),
+                  FutureBuilder<List<HourFuelData>>(
+                    future: get1HourFuelData(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return SizedBox(
+                          height: 200,
+                          child: LineChartWidget(snapshot.data!),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 50),
+                  const Text(
+                    "1 Day Data",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontFamily: "Poppins",
+                    ),
+                  ),
+                  FutureBuilder<List<DayFuelData>>(
+                    future: get1DayFuelData(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return SizedBox(
+                          height: 200,
+                          child: LineChartWidget1Day(snapshot.data!),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 50),
+                  const Text(
+                    "10 Days Data",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontFamily: "Poppins",
+                    ),
+                  ),
+                  FutureBuilder<List<Days10FuelData>>(
+                    future: get10DaysFuelData(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return SizedBox(
+                          height: 200,
+                          child: LineChartWidget10Days(snapshot.data!),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    },
+                  ),
                 ],
               ),
             ),
