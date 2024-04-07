@@ -1,60 +1,84 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
-class Rul extends StatelessWidget {
+class Rul extends StatefulWidget {
   const Rul({super.key});
 
   @override
+  _RulState createState() => _RulState();
+}
+
+class _RulState extends State<Rul> {
+  double _remainingLife = 100.0;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  @override
+  void dispose() {
+    _stopTimer();
+    super.dispose();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(hours: 1), (timer) {
+      setState(() {
+        _remainingLife = (_remainingLife - 0.1).clamp(0.0, 100.0);
+      });
+    });
+  }
+
+  void _stopTimer() {
+    _timer?.cancel();
+    _timer = null;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    String status;
+    if (_remainingLife < 20.0) {
+      status = "Status: Low Remaining Useful Life";
+    } else {
+      status = "Status: Normal";
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text(
-          "Remaining Useful Life",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white, // Set app bar color to match background
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          color: Colors.black,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),// Remove elevation
+        // Existing AppBar code
       ),
       body: SafeArea(
         child: Center(
           child: Container(
             padding: const EdgeInsets.fromLTRB(20.0, 150.0, 20.0, 0.0),
-            child: const Column(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image(
+                const Image(
                   image: AssetImage("assets/rul.png"),
                   width: 200,
                   height: 200,
                   alignment: Alignment.topCenter,
                 ),
-                SizedBox(height: 60),
+                const SizedBox(height: 60),
                 Text(
-                  "100%",
-                  style: TextStyle(
+                  "${_remainingLife.toStringAsFixed(1)}%",
+                  style: const TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.normal,
                     color: Colors.black,
                     fontFamily: "Poppins",
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text(
-                  "Status: Normal",
-                  style: TextStyle(
+                  status,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
                     color: Colors.black,

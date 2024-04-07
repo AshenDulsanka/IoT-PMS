@@ -1,5 +1,10 @@
+import 'dart:convert';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:http/http.dart' as http;
+
 class NextMaintenanceDateManager {
   static int _nextMaintenanceDays = 300;
+  static String? _deviceToken;
 
   static void updateNextMaintenanceDate(Map<String, dynamic> values) {
     // Check if any condition is not normal
@@ -40,7 +45,7 @@ class NextMaintenanceDateManager {
         _nextMaintenanceDays = 0;
       }
       // Send a notification to the user
-      sendNotification("Warning! Next maintenance date has been reduced due to abnormal conditions.");
+      _sendNotification("Warning! Next maintenance date has been reduced due to abnormal conditions.");
     } else {
       _nextMaintenanceDays -= 1;
     }
@@ -48,8 +53,46 @@ class NextMaintenanceDateManager {
 
   static int get nextMaintenanceDays => _nextMaintenanceDays;
 
-  static void sendNotification(String message) {
-    // Implement your notification logic here
-    print("Notification: $message");
+  static Future<void> _sendNotification(String body) async {
+    const String serverKey = 'AAAAMr10t2E:APA91bGIjp_V3WynamWaN0OitufgFjaGbPE5WDOcM9Vi_zGW91-oiGMkkv6vu5736vTXXfuJ1AflJr3N7PH-8qYXdJ3xbDmiBeFo83GKRE-EpYlh64Hmt7K1Vzy9hgY1Al3LdchObdR1';
+    final String? deviceToken = _deviceToken;
+
+    if (deviceToken == null) {
+      print('Device token is not available');
+      return;
+    }
+
+    final Map<String, dynamic> notificationData = {
+      'notification': {
+        'title': 'Next Maintenance Date Update',
+        'body': body,
+      },
+      'to': deviceToken,
+    };
+
+    final Uri url = Uri.parse('https://fcm.googleapis.com/fcm/send');
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'key=$serverKey',
+        },
+        body: jsonEncode(notificationData),
+      );
+
+      if (response.statusCode == 200) {
+        print('Notification sent successfully');
+      } else {
+        print('Failed to send notification: ${response.body}');
+      }
+    } catch (e) {
+      print('Error sending notification: $e');
+    }
+  }
+
+  static void setDeviceToken(String? token) {
+    _deviceToken = token;
   }
 }

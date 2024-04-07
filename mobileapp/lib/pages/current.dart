@@ -47,6 +47,7 @@ class _CurrentState extends State<Current> {
     _messaging.getToken().then((token) {
       print('Device token: $token');
       _deviceToken = token;
+      NextMaintenanceDateManager.setDeviceToken(token);
     });
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
