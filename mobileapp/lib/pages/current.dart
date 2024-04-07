@@ -12,7 +12,7 @@ import '../Analytics/current/1DayLineChart.dart';
 import '../Analytics/current/current10DaysData.dart';
 import '../Analytics/current/current1DayData.dart';
 import '../Analytics/current/current1HourData.dart';
-import 'next_maintenance_date.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 class Current extends StatefulWidget {
   const Current({super.key});
@@ -29,6 +29,10 @@ class _CurrentState extends State<Current> {
   List<FlSpot> currentData = [];
   int index = 0;
   StreamSubscription<DatabaseEvent>? _dataStreamSubscription;
+
+  Future<void> _handleRefresh() async {
+    await Future.delayed(const Duration(seconds: 1));
+  }
 
   @override
   void initState() {
@@ -172,115 +176,118 @@ class _CurrentState extends State<Current> {
           },
         ),
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Center(
-            child: Container(
-              padding: const EdgeInsets.fromLTRB(20.0, 90.0, 20.0, 100.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const Image(
-                    image: AssetImage("assets/current_load.png"),
-                    width: 200,
-                    height: 200,
-                    alignment: Alignment.topCenter,
-                  ),
-                  Text(
-                    "$_current%",
-                    style: const TextStyle(
-                      fontSize: 50,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black,
-                      fontFamily: "Poppins",
+      body: LiquidPullToRefresh(
+        onRefresh: _handleRefresh,
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Center(
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(20.0, 90.0, 20.0, 100.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Image(
+                      image: AssetImage("assets/current_load.png"),
+                      width: 200,
+                      height: 200,
+                      alignment: Alignment.topCenter,
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    status,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black,
-                      fontFamily: "Poppins",
+                    Text(
+                      "$_current%",
+                      style: const TextStyle(
+                        fontSize: 50,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                        fontFamily: "Poppins",
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 100),
-                  const Text(
-                    "1 Hour Data",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      fontFamily: "Poppins",
+                    const SizedBox(height: 20),
+                    Text(
+                      status,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                        fontFamily: "Poppins",
+                      ),
                     ),
-                  ),
-                  FutureBuilder<List<PricePoint>>(
-                    future: getPricePoints(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return SizedBox(
-                          height: 200,
-                          child: LineChartWidget(snapshot.data!),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      } else {
-                        return const CircularProgressIndicator();
-                      }
-                    },
-                  ),
-                  const SizedBox(height: 50),
-                  const Text(
-                    "1 Day Data",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      fontFamily: "Poppins",
+                    const SizedBox(height: 100),
+                    const Text(
+                      "1 Hour Data",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontFamily: "Poppins",
+                      ),
                     ),
-                  ),
-                  FutureBuilder<List<DayCurrentData>>(
-                    future: get1DayCurrentData(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return SizedBox(
-                          height: 200,
-                          child: LineChartWidget1Day(snapshot.data!),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      } else {
-                        return const CircularProgressIndicator();
-                      }
-                    },
-                  ),
-                  const SizedBox(height: 50),
-                  const Text(
-                    "10 Days Data",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      fontFamily: "Poppins",
+                    FutureBuilder<List<PricePoint>>(
+                      future: getPricePoints(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return SizedBox(
+                            height: 200,
+                            child: LineChartWidget(snapshot.data!),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return const CircularProgressIndicator();
+                        }
+                      },
                     ),
-                  ),
-                  FutureBuilder<List<Days10CurrentData>>(
-                    future: get10DaysCurrentData(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return SizedBox(
-                          height: 200,
-                          child: LineChartWidget10Days(snapshot.data!),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      } else {
-                        return const CircularProgressIndicator();
-                      }
-                    },
-                  ),
-                ],
+                    const SizedBox(height: 50),
+                    const Text(
+                      "1 Day Data",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontFamily: "Poppins",
+                      ),
+                    ),
+                    FutureBuilder<List<DayCurrentData>>(
+                      future: get1DayCurrentData(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return SizedBox(
+                            height: 200,
+                            child: LineChartWidget1Day(snapshot.data!),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return const CircularProgressIndicator();
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 50),
+                    const Text(
+                      "10 Days Data",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontFamily: "Poppins",
+                      ),
+                    ),
+                    FutureBuilder<List<Days10CurrentData>>(
+                      future: get10DaysCurrentData(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return SizedBox(
+                            height: 200,
+                            child: LineChartWidget10Days(snapshot.data!),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return const CircularProgressIndicator();
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
