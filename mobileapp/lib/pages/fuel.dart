@@ -10,6 +10,7 @@ import 'package:mobileapp/Analytics/fuel/1HourLineChart.dart';
 import 'package:mobileapp/Analytics/fuel/fuel1DayData.dart';
 import 'package:mobileapp/Analytics/fuel/fuel10DaysData.dart';
 import 'package:mobileapp/Analytics/fuel/fuel1HourData.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import 'next_maintenance_date.dart';
 
@@ -25,6 +26,10 @@ class _FuelState extends State<Fuel> {
   String _fuel = '';
   String? _deviceToken;
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
+
+  Future<void> _handleRefresh() async {
+    await Future.delayed(const Duration(seconds: 1));
+  }
 
   @override
   void initState() {
@@ -140,115 +145,118 @@ class _FuelState extends State<Fuel> {
           },
         ),
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Center(
-            child: Container(
-              padding: const EdgeInsets.fromLTRB(20.0, 150.0, 20.0, 100.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const Image(
-                    image: AssetImage("assets/fuel_level.png"),
-                    width: 200,
-                    height: 200,
-                    alignment: Alignment.topCenter,
-                  ),
-                  Text(
-                    "$_fuel %",
-                    style: const TextStyle(
-                      fontSize: 50,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black,
-                      fontFamily: "Poppins",
+      body: LiquidPullToRefresh(
+        onRefresh: _handleRefresh,
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Center(
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(20.0, 150.0, 20.0, 100.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Image(
+                      image: AssetImage("assets/fuel_level.png"),
+                      width: 200,
+                      height: 200,
+                      alignment: Alignment.topCenter,
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    status,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black,
-                      fontFamily: "Poppins",
+                    Text(
+                      "$_fuel %",
+                      style: const TextStyle(
+                        fontSize: 50,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                        fontFamily: "Poppins",
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 100),
-                  const Text(
-                    "1 Hour Data",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      fontFamily: "Poppins",
+                    const SizedBox(height: 20),
+                    Text(
+                      status,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                        fontFamily: "Poppins",
+                      ),
                     ),
-                  ),
-                  FutureBuilder<List<HourFuelData>>(
-                    future: get1HourFuelData(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return SizedBox(
-                          height: 200,
-                          child: LineChartWidget(snapshot.data!),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      } else {
-                        return const CircularProgressIndicator();
-                      }
-                    },
-                  ),
-                  const SizedBox(height: 50),
-                  const Text(
-                    "1 Day Data",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      fontFamily: "Poppins",
+                    const SizedBox(height: 100),
+                    const Text(
+                      "1 Hour Data",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontFamily: "Poppins",
+                      ),
                     ),
-                  ),
-                  FutureBuilder<List<DayFuelData>>(
-                    future: get1DayFuelData(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return SizedBox(
-                          height: 200,
-                          child: LineChartWidget1Day(snapshot.data!),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      } else {
-                        return const CircularProgressIndicator();
-                      }
-                    },
-                  ),
-                  const SizedBox(height: 50),
-                  const Text(
-                    "10 Days Data",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      fontFamily: "Poppins",
+                    FutureBuilder<List<HourFuelData>>(
+                      future: get1HourFuelData(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return SizedBox(
+                            height: 200,
+                            child: LineChartWidget(snapshot.data!),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return const CircularProgressIndicator();
+                        }
+                      },
                     ),
-                  ),
-                  FutureBuilder<List<Days10FuelData>>(
-                    future: get10DaysFuelData(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return SizedBox(
-                          height: 200,
-                          child: LineChartWidget10Days(snapshot.data!),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      } else {
-                        return const CircularProgressIndicator();
-                      }
-                    },
-                  ),
-                ],
+                    const SizedBox(height: 50),
+                    const Text(
+                      "1 Day Data",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontFamily: "Poppins",
+                      ),
+                    ),
+                    FutureBuilder<List<DayFuelData>>(
+                      future: get1DayFuelData(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return SizedBox(
+                            height: 200,
+                            child: LineChartWidget1Day(snapshot.data!),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return const CircularProgressIndicator();
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 50),
+                    const Text(
+                      "10 Days Data",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontFamily: "Poppins",
+                      ),
+                    ),
+                    FutureBuilder<List<Days10FuelData>>(
+                      future: get10DaysFuelData(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return SizedBox(
+                            height: 200,
+                            child: LineChartWidget10Days(snapshot.data!),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return const CircularProgressIndicator();
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
