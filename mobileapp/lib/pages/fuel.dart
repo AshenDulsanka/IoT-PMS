@@ -137,38 +137,40 @@ class _FuelState extends State<Fuel> {
         ),
       ),
       body: SafeArea(
-        child: Center(
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(20.0, 150.0, 20.0, 0.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const Image(
-                  image: AssetImage("assets/fuel_level.png"),
-                  width: 200,
-                  height: 200,
-                  alignment: Alignment.topCenter,
-                ),
-                Text(
-                  "$_fuel %",
-                  style: const TextStyle(
-                    fontSize: 50,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black,
-                    fontFamily: "Poppins",
+        child: SingleChildScrollView(
+          child: Center(
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(20.0, 150.0, 20.0, 100.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Image(
+                    image: AssetImage("assets/fuel_level.png"),
+                    width: 200,
+                    height: 200,
+                    alignment: Alignment.topCenter,
                   ),
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  status,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black,
-                    fontFamily: "Poppins",
+                  Text(
+                    "$_fuel %",
+                    style: const TextStyle(
+                      fontSize: 50,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.black,
+                      fontFamily: "Poppins",
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 20),
+                  Text(
+                    status,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.black,
+                      fontFamily: "Poppins",
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
