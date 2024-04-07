@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:mobileapp/Analytics/current/lineChart.dart';
-import '../Analytics/current/pricePoints.dart';
+import '../Analytics/current/current1HourData.dart';
 
 class Current extends StatefulWidget {
   const Current({super.key});
