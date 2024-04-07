@@ -11,6 +11,8 @@ import 'package:mobileapp/Analytics/fuel/fuel1DayData.dart';
 import 'package:mobileapp/Analytics/fuel/fuel10DaysData.dart';
 import 'package:mobileapp/Analytics/fuel/fuel1HourData.dart';
 
+import 'next_maintenance_date.dart';
+
 class Fuel extends StatefulWidget {
   const Fuel({super.key});
 
@@ -57,6 +59,9 @@ class _FuelState extends State<Fuel> {
           _fuel = fuelPercentage;
         });
       }
+      NextMaintenanceDateManager.updateNextMaintenanceDate({
+        'fuelLevel': double.parse(_fuel),
+      });
     });
   }
 

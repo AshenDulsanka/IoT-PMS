@@ -11,6 +11,8 @@ import 'package:mobileapp/Analytics/gas/gas1HourData.dart';
 import 'package:mobileapp/Analytics/gas/gas10DaysData.dart';
 import 'package:mobileapp/Analytics/gas/10DaysLineChart.dart';
 
+import 'next_maintenance_date.dart';
+
 class Gas extends StatefulWidget {
   const Gas({super.key});
 
@@ -56,6 +58,9 @@ class _GasState extends State<Gas> {
           _gas = gasLevel;
         });
       }
+      NextMaintenanceDateManager.updateNextMaintenanceDate({
+        'gasValue': double.parse(_gas),
+      });
     });
   }
 

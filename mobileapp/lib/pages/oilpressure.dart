@@ -11,6 +11,8 @@ import 'package:mobileapp/Analytics/oilpressure/1DayLineChart.dart';
 import 'package:mobileapp/Analytics/oilpressure/1HourLineChart.dart';
 import 'package:mobileapp/Analytics/oilpressure/10DaysLineChart.dart';
 
+import 'next_maintenance_date.dart';
+
 class OilPressure extends StatefulWidget {
   const OilPressure({super.key});
 
@@ -56,6 +58,9 @@ class _OilPressureState extends State<OilPressure> {
           _oilpressure = oilPressure;
         });
       }
+      NextMaintenanceDateManager.updateNextMaintenanceDate({
+        'oilPressureValue': double.parse(_oilpressure),
+      });
     });
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'next_maintenance_date.dart';
 
 class NextMD extends StatelessWidget {
   const NextMD({super.key});
@@ -32,19 +33,19 @@ class NextMD extends StatelessWidget {
         child: Center(
           child: Container(
             padding: const EdgeInsets.fromLTRB(20.0, 150.0, 20.0, 0.0),
-            child: const Column(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image(
+                const Image(
                   image: AssetImage("assets/next_md.png"),
                   width: 200,
                   height: 200,
                   alignment: Alignment.topCenter,
                 ),
-                SizedBox(height: 80),
+                const SizedBox(height: 80),
                 Text(
-                  "300 Days",
-                  style: TextStyle(
+                  "${NextMaintenanceDateManager.nextMaintenanceDays} Days",
+                  style: const TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.normal,
                     color: Colors.black,

@@ -11,6 +11,8 @@ import 'package:mobileapp/Analytics/temp/1DayLineChart.dart';
 import 'package:mobileapp/Analytics/temp/10DaysLineChart.dart';
 import 'package:mobileapp/Analytics/temp/temp1DayData.dart';
 
+import 'next_maintenance_date.dart';
+
 class Temp extends StatefulWidget {
   const Temp({super.key});
 
@@ -56,6 +58,9 @@ class _TempState extends State<Temp> {
           _temp = tempValue;
         });
       }
+      NextMaintenanceDateManager.updateNextMaintenanceDate({
+        'temperatureValue': double.parse(_temp),
+      });
     });
   }
 
