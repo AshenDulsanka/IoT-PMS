@@ -43,7 +43,7 @@ class Rul extends StatelessWidget {
                 ),
                 SizedBox(height: 60),
                 Text(
-                  "25%",
+                  "100%",
                   style: TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.normal,

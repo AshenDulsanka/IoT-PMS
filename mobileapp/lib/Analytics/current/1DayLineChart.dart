@@ -2,13 +2,13 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/foundation/key.dart';
-import 'package:mobileapp/Analytics/current/current1HourData.dart';
+import 'package:mobileapp/Analytics/current/current1DayData.dart';
 import 'package:flutter/material.dart';
 
-class LineChartWidget extends StatelessWidget {
-  final List<PricePoint> points;
+class LineChartWidget1Day extends StatelessWidget {
+  final List<DayCurrentData> points;
 
-  const LineChartWidget(this.points, {Key? key}) : super(key: key);
+  const LineChartWidget1Day(this.points, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +16,9 @@ class LineChartWidget extends StatelessWidget {
       aspectRatio: 2,
       child: LineChart(LineChartData(lineBarsData: [
         LineChartBarData(
-          spots: points.map((point) => FlSpot(point.x, point.y)).toList(),
-          isCurved: false,
-          dotData: FlDotData(show: true)
+            spots: points.map((point) => FlSpot(point.x, point.y)).toList(),
+            isCurved: false,
+            dotData: FlDotData(show: true)
         )
       ])),
     );
