@@ -194,9 +194,9 @@ class _CurrentState extends State<Current> {
                   ),
                 ),
                 const SizedBox(height: 100),
-                Text(
+                const Text(
                   "1 Hour Data",
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
