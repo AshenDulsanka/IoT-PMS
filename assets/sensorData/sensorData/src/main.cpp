@@ -4,8 +4,8 @@
 #include "firebase/firebase.h"
 #include "mysql/mysql.h"
 
-const int ledPin1 = 23;
-const int ledPin2 = 23;
+const int ledPin1 = 4;
+const int ledPin2 = 2;
 const int ledPin3 = 19;
 
 // Provide the token generation process info.
@@ -35,6 +35,9 @@ void setup()
   pinMode(ledPin1, OUTPUT); // LED
   pinMode(ledPin2, OUTPUT); // LED
   pinMode(ledPin3, OUTPUT); // LED
+  digitalWrite(ledPin1, LOW); 
+  digitalWrite(ledPin2, LOW); 
+  digitalWrite(ledPin3, LOW); 
   connectToWifi();
   setupFirebase();
   setupSensors();
@@ -53,17 +56,16 @@ void loop()
   }
 
   Serial.println("---------------------");
-  // if (WiFi.status() != WL_CONNECTED)
-  // {
-  //   connectToWifi();
-  // }
-
-  // Check WiFi connection
-  if (WiFi.status() == WL_CONNECTED) {
-      digitalWrite(ledPin1, HIGH); // Turn on LED for WiFi connected
-  } else {
-      digitalWrite(ledPin1, LOW); // Turn off LED for WiFi disconnected
-      digitalWrite(ledPin3, HIGH); // Turn on ledPin3 to indicate error
+   // Check WiFi connection
+  if (WiFi.status() == WL_CONNECTED)
+  {
+    digitalWrite(ledPin2, HIGH); // Turn on blue LED for WiFi connected
+    digitalWrite(ledPin3, LOW);  // Turn off red LED
+  }
+  else
+  {
+    digitalWrite(ledPin2, LOW);  // Turn off blue LED for WiFi disconnected
+    digitalWrite(ledPin3, HIGH); // Turn on red LED to indicate error
   }
 
   double tempValue = readTempValue();
@@ -77,15 +79,13 @@ void loop()
   Serial.println("--------------------");
 
   // Handle LED states based on sensor readings
-  if (tempValue != -1 && soundValue != -1 && fuelLvlValue != -1 && vibrationValue != -1 && currentValue != -1 && oilPressureValue != -1)
+  if (tempValue != -1 && soundValue != -1 && fuelLvlValue != -1 && vibrationValue != -1 && currentValue != -1 && oilPressureValue != -1 && smokeValue != -1)
   {
-    digitalWrite(ledPin3, HIGH); // Turn on ledPin2 if all sensor readings are okay
-    digitalWrite(ledPin2, LOW); // Turn off ledPin3
+    digitalWrite(ledPin1, HIGH); // Turn on green LED if all sensor readings are okay
   }
   else
   {
-    digitalWrite(ledPin3, LOW); // Turn off ledPin2 if any sensor reading is invalid
-    digitalWrite(ledPin2, HIGH); // Turn on ledPin3 to indicate error
+    digitalWrite(ledPin1, LOW); // Turn off green LED if any sensor reading is invalid
   }
 
   // Firebase
