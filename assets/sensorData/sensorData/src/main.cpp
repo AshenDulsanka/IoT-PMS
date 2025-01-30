@@ -15,7 +15,7 @@ const int ledPin3 = 19;
 
 WiFiClient client;
 
-String apiKeyValue = "tPmAT5Ab3j7F9";
+String apiKeyValue = "";
 
 const char *serverName = "https://uptimesensordata.000webhostapp.com/post-esp-data.php";
 
