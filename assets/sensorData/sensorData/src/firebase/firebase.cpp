@@ -8,7 +8,7 @@ FirebaseConfig config;
 void setupFirebase()
 {
     // Firebase setup code
-    config.api_key = "AIzaSyBb0bjuBKrJyziUbjGGXg_dVsGPm4FrZGE";
+    config.api_key = "";
     config.database_url = "https://pusl2022-uptime-default-rtdb.asia-southeast1.firebasedatabase.app/";
 
     if (Firebase.signUp(&config, &auth, "", ""))
